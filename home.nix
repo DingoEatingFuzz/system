@@ -36,6 +36,8 @@
       lsof
 
       sysstat
+
+      git-credential-manager
     ];
     unstable = with pkgs-unstable; [
       # alacritty
@@ -47,6 +49,10 @@
     enable = true;
     userName = "Michael Lange";
     userEmail = "dingoeatingfuzz@gmail.com";
+    extraConfig = {
+      credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+      credential.credentialStore = "secretservice";
+    };
   };
 
   programs.alacritty = {
