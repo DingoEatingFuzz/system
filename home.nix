@@ -59,7 +59,7 @@
     enable = true;
     package = pkgs-unstable.alacritty; 
     settings = {
-      padding = {
+      window.padding = {
         x = 10;
 	y = 10;
       };
