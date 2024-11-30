@@ -40,8 +40,19 @@
       git-credential-manager
     ];
     unstable = with pkgs-unstable; [
-      # alacritty
       neovim
+      nodejs
+
+      # Language server dev stuff
+      nodePackages."eslint_d"
+      nodePackages."vscode-langservers-extracted"
+
+      # These packages would be nice to install here, but they aren't
+      # in nodePackages so they are installed with the post-install script
+      # nodePackages."@fsouza/prettierd"
+      # nodePackages."@lifeart/ember-language-server"
+      # nodePackages."ember-template-lint"
+      # nodePackages."vscode-css-languageservice"
     ];
   in stable ++ unstable; 
 

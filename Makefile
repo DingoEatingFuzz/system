@@ -9,3 +9,5 @@ nixos-bootstrap:
 rebuild:
 	sudo nixos-rebuild switch
   
+node-things:
+	./nixos/post-install.sh
