@@ -50,6 +50,7 @@
       rust-analyzer
       stylua
       gotools
+      nixfmt-rfc-style
     ];
     unstable = with pkgs-unstable; [
       neovim
