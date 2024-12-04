@@ -24,8 +24,9 @@
         modules = [
           nixos-hardware.nixosModules.framework-intel-core-ultra-series1
           ./configuration.nix
-	  ./hardware-configuration.nix
-	  ./fonts.nix
+          ./hardware-configuration.nix
+          ./fonts.nix
+          ./neovim/neovim.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

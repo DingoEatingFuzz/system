@@ -62,6 +62,10 @@
     in
     stable ++ unstable;
 
+  programs.nixCats = {
+    enable = true;
+  }
+
   programs.git = {
     enable = true;
     userName = "Michael Lange";
