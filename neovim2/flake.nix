@@ -1,48 +1,69 @@
 {
   description = "neovim wrapper";
-  inputs.nixpkgs.url = "nixpkgs/nixos-24.05";
-  ouputs = { self, nixpkgs }@inputs:
-  let
-    packageName = "nvim2";
+  inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
+  };
+  ouputs =
+    {
+      self,
+      symlinkJoin,
+      neovim-unwrapped,
+      makeWrapper,
+      runCommandLocal,
+      lib,
+      flake-parts,
+      ...
+    }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
 
-    startPlugins = [
-      vimPlugins.telescope-nvim
-      vimPlugins.nvim-treesitter.withAllGrammars
-    ];
+      perSystem =
+        { pkgs, system, ... }:
+        let
+          packageName = "nvim2";
+          vimPlugins = pkgs.vimPlugins;
 
-    foldPlugins = builtins.foldl' (
-      acc: next:
-        acc ++ [ next ] ++ (foldPlugins (next.dependencies or []))
-    ) [];
+          startPlugins = [
+            vimPlugins.telescope-nvim
+            vimPlugins.nvim-treesitter.withAllGrammars
+          ];
 
-    startPluginsWithDeps = lib.unique (foldPlugins startPlugins);
+          foldPlugins = builtins.foldl' (
+            acc: next: acc ++ [ next ] ++ (foldPlugins (next.dependencies or [ ]))
+          ) [ ];
 
-    packpath = runCommandLocal "packpath" {} ''
-      mkdir -p $out/pack/${packageName}/{start,opt}
+          startPluginsWithDeps = lib.unique (foldPlugins startPlugins);
 
-      ${
-        lib.concatMapStringsSep
-        "\n"
-        (plugin: "ln -vsfT ${plugin} $out/pack/${packageName}/start/${lib.getName plugin}")
-        startPluginsWithDeps
-      }
-    '';
-  in
-    symlinkJoin {
-      name = "neovim-custom";
-      paths = [neovim-unwrapped];
-      nativeBuildInputs = [makeWrapper];
-      postBuild = ''
-        wrapProgram $out/bin/nvim \
-          --add-flags '-u' \
-          --add-flags '${./init.lua}' \
-          --add-flags '--cmd' \
-          --add-flags "'set packpath^=${packpath} | set runtimepath^=${packpath}'" \
-          --set-default NVIM_APPNAME nvim2
-      '';
+          packpath = runCommandLocal "packpath" { } ''
+            mkdir -p $out/pack/${packageName}/{start,opt}
 
-      passthru = {
-        inherit packpath;
-      };
-    }
+            ${lib.concatMapStringsSep "\n" (
+              plugin: "ln -vsfT ${plugin} $out/pack/${packageName}/start/${lib.getName plugin}"
+            ) startPluginsWithDeps}
+          '';
+        in
+        {
+          packages.default = symlinkJoin {
+            name = "neovim-custom";
+            paths = [ neovim-unwrapped ];
+            nativeBuildInputs = [ makeWrapper ];
+            postBuild = ''
+              wrapProgram $out/bin/nvim \
+                --add-flags '-u' \
+                --add-flags '${./init.lua}' \
+                --add-flags '--cmd' \
+                --add-flags "'set packpath^=${packpath} | set runtimepath^=${packpath}'" \
+                --set-default NVIM_APPNAME nvim2
+            '';
+
+            passthru = {
+              inherit packpath;
+            };
+          };
+        };
+    };
 }
