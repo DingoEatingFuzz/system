@@ -2,6 +2,7 @@
   config,
   pkgs,
   pkgs-unstable,
+  nvim-wrapper,
   ...
 }:
 
@@ -60,7 +61,7 @@
       ];
       unstable = with pkgs-unstable; [ neovim ];
     in
-    stable ++ unstable;
+    stable ++ unstable ++ [nvim-wrapper.nvim2];
 
   programs.nixCats = {
     enable = true;

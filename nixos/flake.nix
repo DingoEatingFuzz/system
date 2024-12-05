@@ -9,6 +9,10 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvim-wrapper = {
+      url = "git+file:/neovim2?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, ... }: {
@@ -19,6 +23,9 @@
           pkgs-unstable = import nixpkgs-unstable {
             inherit system;
             config.allowUnfree = true;
+          };
+          nvim-wrapper = import nvim-wrapper {
+            inherit system;
           };
         };
         modules = [
