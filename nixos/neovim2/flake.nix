@@ -3,14 +3,14 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
-  ouputs =
+  outputs =
     {
       self,
-      symlinkJoin,
-      neovim-unwrapped,
-      makeWrapper,
-      runCommandLocal,
-      lib,
+      nixpkgs,
+      # symlinkJoin,
+      # neovim-unwrapped,
+      # makeWrapper,
+      # runCommandLocal,
       flake-parts,
       ...
     }@inputs:
@@ -36,33 +36,37 @@
             acc: next: acc ++ [ next ] ++ (foldPlugins (next.dependencies or [ ]))
           ) [ ];
 
-          startPluginsWithDeps = lib.unique (foldPlugins startPlugins);
+          startPluginsWithDeps = pkgs.lib.unique (foldPlugins startPlugins);
 
-          packpath = runCommandLocal "packpath" { } ''
+          packpath = pkgs.runCommandLocal "packpath" { } ''
             mkdir -p $out/pack/${packageName}/{start,opt}
+            touch $out/can-you-see-this
 
-            ${lib.concatMapStringsSep "\n" (
-              plugin: "ln -vsfT ${plugin} $out/pack/${packageName}/start/${lib.getName plugin}"
+            ${pkgs.lib.concatMapStringsSep "\n" (
+              plugin: "ln -vsfT ${plugin} $out/pack/${packageName}/start/${pkgs.lib.getName plugin}"
             ) startPluginsWithDeps}
           '';
         in
         {
-          packages.default = symlinkJoin {
-            name = "neovim-custom";
-            paths = [ neovim-unwrapped ];
-            nativeBuildInputs = [ makeWrapper ];
-            postBuild = ''
-              wrapProgram $out/bin/nvim \
-                --add-flags '-u' \
-                --add-flags '${./init.lua}' \
-                --add-flags '--cmd' \
-                --add-flags "'set packpath^=${packpath} | set runtimepath^=${packpath}'" \
-                --set-default NVIM_APPNAME nvim2
-            '';
+          packages = {
+            nvim2 = pkgs.symlinkJoin {
+              name = "nvim2";
+              paths = [ pkgs.neovim-unwrapped ];
+              nativeBuildInputs = [ pkgs.makeWrapper ];
+              postBuild = ''
+                wrapProgram $out/bin/nvim \
+                  --add-flags '-u' \
+                  --add-flags '${./init.lua}' \
+                  --add-flags '--cmd' \
+                  --add-flags "'set packpath^=${packpath} | set runtimepath^=${packpath}'" \
+                  --set-default NVIM_APPNAME nvim2 
+              '';
 
-            passthru = {
-              inherit packpath;
+              passthru = {
+                inherit packpath;
+              };
             };
+            default = self.packages.${system}.nvim2;
           };
         };
     };

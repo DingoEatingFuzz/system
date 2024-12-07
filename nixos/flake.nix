@@ -11,7 +11,7 @@
     };
     nvim-wrapper = {
       url = "path:./neovim2";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
@@ -30,18 +30,20 @@
         nixos = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
+            system = system;
             pkgs-unstable = import nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
             };
-            nvim-wrapper = import nvim-wrapper { inherit system; };
+            # nvim-wrapper = import nvim-wrapper { inherit system; };
+            nvim-wrapper = nvim-wrapper;
           };
           modules = [
             nixos-hardware.nixosModules.framework-intel-core-ultra-series1
             ./configuration.nix
+            # ./neovim2/neovim.nix
             ./hardware-configuration.nix
             ./fonts.nix
-            ./neovim/neovim.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

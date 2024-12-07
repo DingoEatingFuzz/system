@@ -3,6 +3,7 @@
   pkgs,
   pkgs-unstable,
   nvim-wrapper,
+  system,
   ...
 }:
 
@@ -59,13 +60,12 @@
         gotools
         nixfmt-rfc-style
       ];
-      unstable = with pkgs-unstable; [ neovim ];
+      unstable = with pkgs-unstable; [
+        (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
+      ];
     in
-    stable ++ unstable ++ [nvim-wrapper.nvim2];
-
-  programs.nixCats = {
-    enable = true;
-  }
+    stable ++ unstable ++ [ nvim-wrapper.packages.${system}.default ];
+  # stable ++ unstable;
 
   programs.git = {
     enable = true;
