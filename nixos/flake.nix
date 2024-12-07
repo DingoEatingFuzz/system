@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-wrapper = {
-      url = "path:./neovim2";
+      url = "path:./neovim";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
