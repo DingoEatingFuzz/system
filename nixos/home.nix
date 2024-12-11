@@ -46,6 +46,8 @@
         sysstat
 
         git-credential-manager
+        _1password
+        _1password-gui
 
         nodejs
         go
@@ -65,7 +67,12 @@
       ];
     in
     stable ++ unstable ++ [ nvim-wrapper.packages.${system}.default ];
-  # stable ++ unstable;
+
+  # programs._1password-gui = {
+  #   enable = true;
+  #   package = pkgs._1password-gui;
+  #   polkitPolicyOwners = [ "michael" ];
+  # };
 
   programs.git = {
     enable = true;
