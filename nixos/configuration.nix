@@ -6,7 +6,13 @@
 
 {
   # Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  # Kernel
+  boot.kernelParams = [ "split_lock_detect=off" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -53,7 +59,6 @@
   };
   services.xserver.desktopManager.plasma5.enable = true;
 
-
   # Configure keymap in X11
   services.xserver = {
     xkb.layout = "us";
@@ -87,10 +92,13 @@
   users.users.michael = {
     isNormalUser = true;
     description = "Michael";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
