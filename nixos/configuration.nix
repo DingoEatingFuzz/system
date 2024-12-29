@@ -108,6 +108,14 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Steam requires a system-level installation
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
