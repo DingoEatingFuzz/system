@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    ghostty.url = "github:ghostty-org/ghostty";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +24,7 @@
       nixos-hardware,
       home-manager,
       nvim-wrapper,
+      ghostty,
       ...
     }:
     {
@@ -35,13 +37,12 @@
               inherit system;
               config.allowUnfree = true;
             };
-            # nvim-wrapper = import nvim-wrapper { inherit system; };
             nvim-wrapper = nvim-wrapper;
+            ghostty = ghostty;
           };
           modules = [
             nixos-hardware.nixosModules.framework-intel-core-ultra-series1
             ./configuration.nix
-            # ./neovim2/neovim.nix
             ./hardware-configuration.nix
             ./fonts.nix
             home-manager.nixosModules.home-manager

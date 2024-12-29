@@ -3,6 +3,7 @@
   pkgs,
   pkgs-unstable,
   nvim-wrapper,
+  ghostty,
   system,
   ...
 }:
@@ -65,8 +66,12 @@
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
       ];
+      custom = [
+        nvim-wrapper.packages.${system}.default
+        ghostty.packages.${system}.default
+      ];
     in
-    stable ++ unstable ++ [ nvim-wrapper.packages.${system}.default ];
+    stable ++ unstable ++ custom;
 
   # programs._1password-gui = {
   #   enable = true;
