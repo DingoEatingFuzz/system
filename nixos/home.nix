@@ -65,6 +65,8 @@
       ];
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
+        discord-ptb
+        signal-desktop
       ];
       custom = [
         nvim-wrapper.packages.${system}.default
