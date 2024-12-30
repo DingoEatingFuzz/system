@@ -24,13 +24,30 @@
       perSystem =
         { pkgs, system, ... }:
         let
-          packageName = "nvim2";
+          packageName = "nvim";
           vimPlugins = pkgs.vimPlugins;
 
-          startPlugins = [
-            vimPlugins.telescope-nvim
-            vimPlugins.nvim-treesitter.withAllGrammars
-          ];
+          startPlugins = let
+            standard = with vimPlugins; [
+              plenary-nvim
+              telescope-nvim
+              conform-nvim
+              nvim-web-devicons
+              nvim-tree-lua
+              nvim-treesitter.withAllGrammars
+            ];
+            custom = [
+             #  (pkgs.vimUtils.buildVimPlugin {
+             #    name = "nvim-tree";
+             #    src = pkgs.fetchFromGitHub {
+             #      owner = "nvim-tree";
+             #      repo = "nvim-tree.lua";
+             #      rev = "v1.9.0";
+             #      hash = "sha256-fKGRorU/jnHQuZwXNFyrcvsJy6MRhhJZRo4/wyDXM5s=";
+             #    };
+             #  })
+            ];
+          in standard ++ custom;
 
           foldPlugins = builtins.foldl' (
             acc: next: acc ++ [ next ] ++ (foldPlugins (next.dependencies or [ ]))
@@ -50,7 +67,7 @@
         {
           packages = {
             nvim2 = pkgs.symlinkJoin {
-              name = "nvim2";
+              name = "nvim";
               paths = [ pkgs.neovim-unwrapped ];
               nativeBuildInputs = [ pkgs.makeWrapper ];
               postBuild = ''

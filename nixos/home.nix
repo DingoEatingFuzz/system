@@ -16,6 +16,7 @@
     let
       stable = with pkgs; [
         neofetch
+        nurl
 
         zip
         xz
@@ -62,6 +63,7 @@
         stylua
         gotools
         nixfmt-rfc-style
+        # ember?
       ];
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
