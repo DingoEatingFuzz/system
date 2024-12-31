@@ -29,11 +29,25 @@
 
           startPlugins = let
             standard = with vimPlugins; [
+              # basics
               plenary-nvim
               telescope-nvim
-              conform-nvim
-              nvim-web-devicons
               nvim-tree-lua
+              nvim-web-devicons
+
+              # formatting
+              conform-nvim
+
+              # language server
+              nvim-lspconfig
+
+              # autocomplete
+              luasnip
+              nvim-cmp
+              cmp_luasnip
+              cmp-nvim-lsp
+
+              # syntax highlighting
               nvim-treesitter.withAllGrammars
             ];
             custom = [

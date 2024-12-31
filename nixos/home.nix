@@ -59,6 +59,7 @@
         prettierd
         vscode-langservers-extracted
         zls
+        nixd
         rust-analyzer
         stylua
         gotools
