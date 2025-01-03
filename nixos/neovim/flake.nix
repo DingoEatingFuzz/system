@@ -2,6 +2,7 @@
   description = "neovim wrapper";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
   outputs =
     {
@@ -82,7 +83,21 @@
           packages = {
             nvim2 = pkgs.symlinkJoin {
               name = "nvim";
-              paths = [ pkgs.neovim-unwrapped ];
+              paths = with pkgs; [
+                eslint_d
+                prettierd
+                vscode-langservers-extracted
+                zls
+                nixd
+                rust-analyzer
+                stylua
+                gotools
+                nixd
+                nixfmt-rfc-style
+                lua-language-server
+                typescript-language-server
+                neovim-unwrapped
+              ];
               nativeBuildInputs = [ pkgs.makeWrapper ];
               postBuild = ''
                 wrapProgram $out/bin/nvim \

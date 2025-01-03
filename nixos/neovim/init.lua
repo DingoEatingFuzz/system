@@ -15,7 +15,6 @@ local servers = {
 	"html",
 	"cssls",
 	"ts_ls",
-	"clangd",
 	"ember",
 	"lua_ls",
 	"rust_analyzer",
