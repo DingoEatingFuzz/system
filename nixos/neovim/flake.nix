@@ -58,7 +58,8 @@
 
           packpath = pkgs.runCommandLocal "packpath" { } ''
             mkdir -p $out/pack/${packageName}/{start,opt}
-            touch $out/can-you-see-this
+
+            ln -vsfT ${./cfg} $out/pack/${packageName}/start/cfg
 
             ${pkgs.lib.concatMapStringsSep "\n" (
               plugin: "ln -vsfT ${plugin} $out/pack/${packageName}/start/${pkgs.lib.getName plugin}"
