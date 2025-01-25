@@ -8,10 +8,6 @@
     {
       self,
       nixpkgs,
-      # symlinkJoin,
-      # neovim-unwrapped,
-      # makeWrapper,
-      # runCommandLocal,
       flake-parts,
       ...
     }@inputs:
@@ -51,17 +47,7 @@
               # syntax highlighting
               nvim-treesitter.withAllGrammars
             ];
-            custom = [
-             #  (pkgs.vimUtils.buildVimPlugin {
-             #    name = "nvim-tree";
-             #    src = pkgs.fetchFromGitHub {
-             #      owner = "nvim-tree";
-             #      repo = "nvim-tree.lua";
-             #      rev = "v1.9.0";
-             #      hash = "sha256-fKGRorU/jnHQuZwXNFyrcvsJy6MRhhJZRo4/wyDXM5s=";
-             #    };
-             #  })
-            ];
+            custom = [];
           in standard ++ custom;
 
           foldPlugins = builtins.foldl' (
