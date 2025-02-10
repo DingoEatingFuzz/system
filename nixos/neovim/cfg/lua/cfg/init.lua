@@ -1,2 +1,2 @@
-require("cfg.mappings.lua")
-require("cfg.plugins.lua")
+require("cfg.plugins")
+require("cfg.mappings")
