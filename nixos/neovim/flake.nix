@@ -44,6 +44,9 @@
               cmp_luasnip
               cmp-nvim-lsp
 
+              # tabs and status line
+              lualine-nvim
+
               # syntax highlighting
               nvim-treesitter.withAllGrammars
             ];

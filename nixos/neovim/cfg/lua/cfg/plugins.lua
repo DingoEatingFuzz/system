@@ -10,7 +10,11 @@ vim.opt.termguicolors = true
 require("nvim-tree").setup(require("cfg.configs.nvimtree"))
 
 -- Telescope / Fuzzy find
-require("telescope").setup(require("cfg.configs.telescope"))
+local tele = require("telescope")
+tele.setup(require("cfg.configs.telescope"))
+
+-- Status line
+require("lualine").setup(require("cfg.configs.lualine"))
 
 -- setup language servers
 local lspconfig = require("lspconfig")
