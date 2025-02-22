@@ -31,6 +31,7 @@
               telescope-nvim
               nvim-tree-lua
               nvim-web-devicons
+              oceanic-next
 
               # formatting
               conform-nvim
