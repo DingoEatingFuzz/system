@@ -3,10 +3,6 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 
--- optionally enable 24-bit colour
-vim.opt.termguicolors = true
-vim.cmd("colorscheme OceanicNext")
-
 -- File tree viewer
 require("nvim-tree").setup(require("cfg.configs.nvimtree"))
 
