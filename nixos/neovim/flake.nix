@@ -50,6 +50,8 @@
 
               # syntax highlighting
               nvim-treesitter.withAllGrammars
+
+              gitsigns-nvim
             ];
             custom = [];
           in standard ++ custom;

@@ -7,8 +7,10 @@ vim.g.mapleader = " "
 require("nvim-tree").setup(require("cfg.configs.nvimtree"))
 
 -- Telescope / Fuzzy find
-local tele = require("telescope")
-tele.setup(require("cfg.configs.telescope"))
+require("telescope").setup(require("cfg.configs.telescope"))
+
+-- Git
+require("gitsigns").setup(require("cfg.configs.gitsigns"))
 
 -- Status line
 require("lualine").setup(require("cfg.configs.lualine"))
