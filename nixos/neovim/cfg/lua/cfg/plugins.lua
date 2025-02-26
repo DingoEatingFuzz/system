@@ -13,11 +13,11 @@ require("telescope").setup(require("cfg.configs.telescope"))
 -- Git
 require("gitsigns").setup(require("cfg.configs.gitsigns"))
 
--- Status line
-require("lualine").setup(require("cfg.configs.lualine"))
-
 -- Autocompletion
 require("cmp").setup(require("cfg.configs.cmp"))
+
+-- Status line
+require("lualine").setup(require("cfg.configs.lualine"))
 
 -- Theming
 require("base46").load_all_highlights()
