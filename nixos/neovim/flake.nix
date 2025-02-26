@@ -44,6 +44,7 @@
               nvim-cmp
               cmp_luasnip
               cmp-nvim-lsp
+              cmp-path
 
               # tabs and status line
               lualine-nvim

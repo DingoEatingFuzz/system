@@ -15,6 +15,9 @@ require("gitsigns").setup(require("cfg.configs.gitsigns"))
 -- Status line
 require("lualine").setup(require("cfg.configs.lualine"))
 
+-- Autocompletion
+require("cmp").setup(require("cfg.configs.cmp"))
+
 -- setup language servers
 local lspconfig = require("lspconfig")
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
