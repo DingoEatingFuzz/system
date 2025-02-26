@@ -64,3 +64,23 @@ lspconfig.nixd.setup({
 		},
 	},
 })
+
+-- diagnostics characters and settings
+local d = vim.diagnostic
+local x = d.severity
+local lsp = vim.lsp
+
+d.config({
+	virtual_text = { prefix = "" },
+	signs = { text = { [x.ERROR] = "󰅙", [x.WARN] = "", [x.INFO] = "󰋼", [x.HINT] = "󰌵" } },
+	underline = true,
+	float = { border = "single" },
+})
+
+-- Default border style
+local orig_util_open_floating_preview = lsp.util.open_floating_preview
+function lsp.util.open_floating_preview(contents, syntax, opts, ...)
+	opts = opts or {}
+	opts.border = "rounded"
+	return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
