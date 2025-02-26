@@ -31,7 +31,7 @@
               telescope-nvim
               nvim-tree-lua
               nvim-web-devicons
-              base16-nvim
+              base46
 
               # formatting
               conform-nvim

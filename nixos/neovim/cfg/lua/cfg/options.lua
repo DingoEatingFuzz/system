@@ -3,7 +3,6 @@ local o = vim.o
 
 -- color theme
 opt.termguicolors = true
-vim.cmd("colorscheme base16-oceanicnext")
 
 o.laststatus = 3
 o.showmode = false

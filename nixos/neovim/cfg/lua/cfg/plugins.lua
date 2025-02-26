@@ -2,6 +2,7 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
+vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
 -- File tree viewer
 require("nvim-tree").setup(require("cfg.configs.nvimtree"))
@@ -17,6 +18,9 @@ require("lualine").setup(require("cfg.configs.lualine"))
 
 -- Autocompletion
 require("cmp").setup(require("cfg.configs.cmp"))
+
+-- Theming
+require("base46").load_all_highlights()
 
 -- setup language servers
 local lspconfig = require("lspconfig")
