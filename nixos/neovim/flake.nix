@@ -52,7 +52,11 @@
               # syntax highlighting
               nvim-treesitter.withAllGrammars
 
+              # git
               gitsigns-nvim
+
+              # other stuff
+              zig-vim
             ];
             custom = [];
           in standard ++ custom;
