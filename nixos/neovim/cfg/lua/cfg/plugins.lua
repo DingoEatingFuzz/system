@@ -5,7 +5,7 @@ vim.g.mapleader = " "
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
 -- Treesitter
-require("nvim-treesitter").setup(require("cfg.configs.treesitter"))
+require("nvim-treesitter.configs").setup(require("cfg.configs.treesitter"))
 
 -- File tree viewer
 require("nvim-tree").setup(require("cfg.configs.nvimtree"))
