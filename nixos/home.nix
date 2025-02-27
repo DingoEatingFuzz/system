@@ -53,18 +53,6 @@
 
         nodejs
         go
-
-        # All the language servers
-        eslint_d
-        prettierd
-        vscode-langservers-extracted
-        zls
-        nixd
-        rust-analyzer
-        stylua
-        gotools
-        nixfmt-rfc-style
-        # ember?
       ];
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
