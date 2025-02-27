@@ -91,6 +91,8 @@
                 lua-language-server
                 typescript-language-server
                 neovim-unwrapped
+                ember-language-server
+                tree-sitter-glimmer
               ];
               nativeBuildInputs = [ pkgs.makeWrapper ];
               postBuild = ''
