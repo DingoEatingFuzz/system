@@ -6,6 +6,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     ghostty.url = "github:ghostty-org/ghostty";
+    affinity.url = "github:mrshmllow/affinity-nix";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +26,7 @@
       home-manager,
       nvim-wrapper,
       ghostty,
+      affinity,
       ...
     }:
     {
@@ -39,6 +41,7 @@
             };
             nvim-wrapper = nvim-wrapper;
             ghostty = ghostty;
+            affinity = affinity;
           };
           modules = [
             nixos-hardware.nixosModules.framework-intel-core-ultra-series1

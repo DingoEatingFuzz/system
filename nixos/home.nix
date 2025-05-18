@@ -4,6 +4,7 @@
   pkgs-unstable,
   nvim-wrapper,
   ghostty,
+  affinity,
   system,
   ...
 }:
@@ -62,6 +63,9 @@
       custom = [
         nvim-wrapper.packages.${system}.default
         ghostty.packages.${system}.default
+        affinity.packages.${system}.photo
+        # affinity.packages.${system}.designer
+        # affinity.packages.${system}.publisher
       ];
     in
     stable ++ unstable ++ custom;
