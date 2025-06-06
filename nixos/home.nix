@@ -59,6 +59,7 @@
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
         discord-ptb
         signal-desktop
+        zed-editor
       ];
       custom = [
         nvim-wrapper.packages.${system}.default
