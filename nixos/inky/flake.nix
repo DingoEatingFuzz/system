@@ -3,8 +3,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
-  outputs = { self, nixpkgs, ... }: {
-    packages.x86_64-linux = let
+  outputs = { self, nixpkgs, ... }@inputs:
+    let
+      inherit nixpkgs;
       pname = "inky";
       version = "0.15.1";
       description = "An editor for the ink interactive narrative markup language";
@@ -46,8 +47,10 @@
           runHook postInstall
         '';
       };
-    in {
-      inky = nixpkgs.buildFHSUserEnv {
+    in 
+      let
+        inherit nixpkgs;
+        inky = nixpkgs.buildFHSUserEnv {
           inherit pname version;
           targetPkgs = pkgs: with pkgs; [
             inkyPkg
@@ -104,7 +107,10 @@
             platforms = [ "x86_64-linux" ];
           };
         };
-      default = self.packages.x86_64-linux.inky;
-    };
-  };
+      in {
+        packages.x86_64-linux = {
+          inky = inky;
+          default = inky;
+        };
+      };
 }
