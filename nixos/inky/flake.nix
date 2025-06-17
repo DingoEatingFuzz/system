@@ -47,69 +47,64 @@
         '';
       };
     in {
-      inky = {
-        type = "app";
-        program = let
-          drv = nixpkgs.buildFHSEnv {
-            inherit pname version;
-            targetPkgs = pkgs: with pkgs; [
-              inkyPkg
-              udev
+      inky = nixpkgs.buildFHSUserEnv {
+          inherit pname version;
+          targetPkgs = pkgs: with pkgs; [
+            inkyPkg
+            udev
 
-              # compiler packages
-              icu
-              zlib
+            # compiler packages
+            icu
+            zlib
 
-              # electron packages
-              alsa-lib
-              atk
-              cairo
-              cups
-              dbus
-              expat
-              gdk-pixbuf
-              glib
-              gtk3
-              libuuid
-              nspr
-              nss
-              pango
-              xorg.libX11
-              xorg.libXScrnSaver
-              xorg.libXcomposite
-              xorg.libXcursor
-              xorg.libXdamage
-              xorg.libXext
-              xorg.libXfixes
-              xorg.libXi
-              xorg.libXrandr
-              xorg.libXrender
-              xorg.libXtst
-              xorg.libxcb
-            ];
+            # electron packages
+            alsa-lib
+            atk
+            cairo
+            cups
+            dbus
+            expat
+            gdk-pixbuf
+            glib
+            gtk3
+            libuuid
+            nspr
+            nss
+            pango
+            xorg.libX11
+            xorg.libXScrnSaver
+            xorg.libXcomposite
+            xorg.libXcursor
+            xorg.libXdamage
+            xorg.libXext
+            xorg.libXfixes
+            xorg.libXi
+            xorg.libXrandr
+            xorg.libXrender
+            xorg.libXtst
+            xorg.libxcb
+          ];
 
-            runScript = "Inky $*";
+          runScript = "Inky $*";
 
-            extraInstallCommands = ''
-               mkdir -p "$out/share/applications"
-               ln -s ${desktopItem}/share/applications/* "$out/share/applications"
-             '';
+          extraInstallCommands = ''
+             mkdir -p "$out/share/applications"
+             ln -s ${desktopItem}/share/applications/* "$out/share/applications"
+           '';
 
-            meta = {
-              inherit description;
-              longDescription = ''
-                Inky is an editor for ink, inkle's markup language for writing interactive narrative in games, as used in "80 Days".
-                It's an IDE (integrated development environment), because it gives you a single app that lets you play in the editor as you write, and fix any bugs in your code.
-              '';
-              mainProgram = "inky";
-              homepage = "https://github.com/inkle/inky";
-              license = nixpkgs.lib.licenses.mit;
-              platforms = [ "x86_64-linux" ];
-            };
+          meta = {
+            inherit description;
+            longDescription = ''
+              Inky is an editor for ink, inkle's markup language for writing interactive narrative in games, as used in "80 Days".
+              It's an IDE (integrated development environment), because it gives you a single app that lets you play in the editor as you write, and fix any bugs in your code.
+            '';
+            mainProgram = "inky";
+            homepage = "https://github.com/inkle/inky";
+            license = nixpkgs.lib.licenses.mit;
+            platforms = [ "x86_64-linux" ];
           };
-        in "${drv}/bin/inky";
-      };
+        };
+      default = self.packages.x86_64-linux.inky;
     };
-    defaultPackages.x86_64-linux = self.packages.x86_64-linux.inky;
   };
 }
