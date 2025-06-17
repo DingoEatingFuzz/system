@@ -3,18 +3,18 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
-  outputs = { self, pkgs, ... }: {
+  outputs = { self, nixpkgs, ... }: {
     packages.x86_64-linux = let
       pname = "inky";
       version = "0.15.1";
       description = "An editor for the ink interactive narrative markup language";
 
       desktopItem = let
-        icon = pkgs.fetchurl {
+        icon = nixpkgs.fetchurl {
           url = "https://raw.githubusercontent.com/inkle/inky/${version}/resources/Icon1024.png";
           hash = "sha256-82+s7MZ8a/GGPeNVZMlbC7n1IVpgqSO/xPYrtXaEIOs=";
         };
-      in pkgs.makeDesktopItem {
+      in nixpkgs.makeDesktopItem {
         name = "Inky";
         exec = "inky";
         icon = icon;
@@ -24,11 +24,11 @@
       };
 
       inkyPkg = let 
-        src = pkgs.fetchzip {
+        src = nixpkgs.fetchzip {
           url = "https://github.com/inkle/inky/releases/download/${version}/Inky_linux.zip";
           hash = "sha256-WK63bmW6n/hsrjhBzDAi1EjxPiP2TxtuaxAIa84TAsk=";
         };
-      in pkgs.stdenv.mkDerivation {
+      in nixpkgs.stdenv.mkDerivation {
         inherit pname version src;
 
         dontConfigure = true;
@@ -50,7 +50,7 @@
       inky = {
         type = "app";
         program = let
-          drv = pkgs.buildFHSEnv {
+          drv = nixpkgs.buildFHSEnv {
             inherit pname version;
             targetPkgs = pkgs: with pkgs; [
               inkyPkg
@@ -103,7 +103,7 @@
               '';
               mainProgram = "inky";
               homepage = "https://github.com/inkle/inky";
-              license = pkgs.lib.licenses.mit;
+              license = nixpkgs.lib.licenses.mit;
               platforms = [ "x86_64-linux" ];
             };
           };
