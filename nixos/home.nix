@@ -3,6 +3,7 @@
   pkgs,
   pkgs-unstable,
   nvim-wrapper,
+  inky,
   ghostty,
   affinity,
   system,
@@ -62,6 +63,7 @@
         zed-editor
       ];
       custom = [
+        inky.packages.${system}.default
         nvim-wrapper.packages.${system}.default
         ghostty.packages.${system}.default
         affinity.packages.${system}.photo

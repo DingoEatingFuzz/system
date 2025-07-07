@@ -189,6 +189,23 @@
         "type": "github"
       }
     },
+    "inky": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-VuwhtstwImlhAgX2DlU3Z7jO8TJVNAWxoSq7M3IQgVo=",
+        "path": "./inky",
+        "type": "path"
+      },
+      "original": {
+        "path": "./inky",
+        "type": "path"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1740646007,
@@ -356,6 +373,7 @@
         "affinity": "affinity",
         "ghostty": "ghostty",
         "home-manager": "home-manager",
+        "inky": "inky",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable_2",
