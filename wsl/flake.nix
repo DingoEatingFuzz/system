@@ -25,7 +25,6 @@
       nixos-hardware,
       home-manager,
       nvim-wrapper,
-      inky,
       ghostty,
       affinity,
       ...
@@ -41,7 +40,6 @@
               config.allowUnfree = true;
             };
             nvim-wrapper = nvim-wrapper;
-            inky = inky;
             ghostty = ghostty;
             affinity = affinity;
           };
