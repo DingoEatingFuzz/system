@@ -15,10 +15,6 @@
       url = "path:./neovim";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    inky = {
-      url = "path:./inky";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
   };
 
   outputs =
