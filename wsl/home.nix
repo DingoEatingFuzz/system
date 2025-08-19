@@ -8,8 +8,7 @@
 }:
 
 {
-  home.username = "michael";
-  home.homeDirectory = "/home/michael";
+  home.username = "nixos";
 
   home.packages =
     let
@@ -47,8 +46,6 @@
         sysstat
 
         git-credential-manager
-        _1password
-        _1password-gui
 
         nodejs
         go
@@ -67,8 +64,8 @@
     userName = "Michael Lange";
     userEmail = "dingoeatingfuzz@gmail.com";
     extraConfig = {
-      credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
-      credential.credentialStore = "secretservice";
+      credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
+      credential.credentialStore = "wincredman";
     };
   };
 
