@@ -61,6 +61,8 @@
         discord-ptb
         signal-desktop
         zed-editor
+        obsidian
+        synology-drive-client
       ];
       custom = [
         inky.packages.${system}.default
