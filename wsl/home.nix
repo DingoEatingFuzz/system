@@ -49,6 +49,9 @@
 
         nodejs
         go
+
+        wsl-open
+        wslu
       ];
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
