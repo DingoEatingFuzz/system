@@ -196,15 +196,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-VuwhtstwImlhAgX2DlU3Z7jO8TJVNAWxoSq7M3IQgVo=",
         "path": "./inky",
         "type": "path"
       },
       "original": {
         "path": "./inky",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "nixos-hardware": {
       "locked": {
@@ -338,15 +337,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-AjV8ZNamJVlIaOGQ7g3/IK++VclPTiDOWz54mmFP6qA=",
         "path": "./neovim",
         "type": "path"
       },
       "original": {
         "path": "./neovim",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "pre-commit-hooks": {
       "inputs": {

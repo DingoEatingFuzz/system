@@ -29,43 +29,56 @@ require("base46").load_all_highlights()
 local lspconfig = require("lspconfig")
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 local servers = {
-	"html",
-	"cssls",
-	"ts_ls",
-	"ember",
-	"lua_ls",
-	"rust_analyzer",
-	"gopls",
-	"zls",
-	"eslint",
+  "html",
+  "cssls",
+  "ts_ls",
+  "ember",
+  "lua_ls",
+  "rust_analyzer",
+  "gopls",
+  "zls",
+  "eslint",
 }
 
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
-		capabilities = lsp_capabilities,
-	})
+  lspconfig[lsp].setup({
+    capabilities = lsp_capabilities,
+  })
 end
 
 lspconfig.eslint.setup({
-	filetypes = { "javascript.glimmer", "typescript.glimmer" },
-	on_attach = function(_, bufnr)
-		-- eslint --fix on save before prettier/formatters
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "EslintFixAll",
-		})
-	end,
+  filetypes = { "javascript.glimmer", "typescript.glimmer" },
+  on_attach = function(_, bufnr)
+    -- eslint --fix on save before prettier/formatters
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      command = "EslintFixAll",
+    })
+  end,
 })
 
 -- Use the new rfc-style formatter
 lspconfig.nixd.setup({
-	settings = {
-		nixd = {
-			formatting = {
-				command = { "nixfmt" },
-			},
-		},
-	},
+  settings = {
+    nixd = {
+      formatting = {
+        command = { "nixfmt" },
+      },
+    },
+  },
+})
+
+-- Autoformat on save
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+  callback = function(args)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = args.buf,
+      callback = function()
+        vim.lsp.buf.format { async = false, id = args.data.client_id }
+      end,
+    })
+  end
 })
 
 -- diagnostics characters and settings
@@ -74,16 +87,16 @@ local x = d.severity
 local lsp = vim.lsp
 
 d.config({
-	virtual_text = { prefix = "" },
-	signs = { text = { [x.ERROR] = "󰅙", [x.WARN] = "", [x.INFO] = "󰋼", [x.HINT] = "󰌵" } },
-	underline = true,
-	float = { border = "single" },
+  virtual_text = { prefix = "" },
+  signs = { text = { [x.ERROR] = "󰅙", [x.WARN] = "", [x.INFO] = "󰋼", [x.HINT] = "󰌵" } },
+  underline = true,
+  float = { border = "single" },
 })
 
 -- Default border style
 local orig_util_open_floating_preview = lsp.util.open_floating_preview
 function lsp.util.open_floating_preview(contents, syntax, opts, ...)
-	opts = opts or {}
-	opts.border = "rounded"
-	return orig_util_open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = "rounded"
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
