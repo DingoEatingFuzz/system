@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     ghostty.url = "github:ghostty-org/ghostty";
     affinity.url = "github:mrshmllow/affinity-nix";
@@ -13,7 +14,7 @@
     };
     nvim-wrapper = {
       url = "path:./neovim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs-master";
     };
   };
 
