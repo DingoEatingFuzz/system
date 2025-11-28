@@ -2,21 +2,17 @@
   description = "System";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     ghostty.url = "github:ghostty-org/ghostty";
     affinity.url = "github:mrshmllow/affinity-nix";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-wrapper = {
       url = "path:./neovim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    inky = {
-      url = "path:./inky";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
@@ -29,7 +25,6 @@
       nixos-hardware,
       home-manager,
       nvim-wrapper,
-      inky,
       ghostty,
       affinity,
       ...
@@ -45,7 +40,6 @@
               config.allowUnfree = true;
             };
             nvim-wrapper = nvim-wrapper;
-            inky = inky;
             ghostty = ghostty;
             affinity = affinity;
           };

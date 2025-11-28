@@ -57,7 +57,8 @@
     enable = true;
     settings.General.DisplayServer = "x11-user";
   };
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  # services.xserver.displayManager.sddm.wayland.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -90,8 +91,7 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -118,7 +118,7 @@
       "wheel"
     ];
     packages = with pkgs; [
-      kate
+      kdePackages.kate
       #  thunderbird
     ];
   };

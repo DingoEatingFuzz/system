@@ -3,7 +3,6 @@
   pkgs,
   pkgs-unstable,
   nvim-wrapper,
-  inky,
   ghostty,
   affinity,
   system,
@@ -50,7 +49,7 @@
         sysstat
 
         git-credential-manager
-        _1password
+        _1password-cli
         _1password-gui
 
         nodejs
@@ -65,7 +64,6 @@
         synology-drive-client
       ];
       custom = [
-        inky.packages.${system}.default
         nvim-wrapper.packages.${system}.default
         ghostty.packages.${system}.default
         affinity.packages.${system}.photo
