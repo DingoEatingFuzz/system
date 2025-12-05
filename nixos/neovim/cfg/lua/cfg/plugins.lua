@@ -70,6 +70,9 @@ vim.lsp.config('nixd', {
 })
 vim.lsp.enable('nixd')
 
+require("nvim-tree").setup(require("cfg.configs.nvimtree"))
+require("lsp_signature").setup(require("cfg.configs.lsp_signature"))
+
 -- Autoformat on save
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp", { clear = true }),

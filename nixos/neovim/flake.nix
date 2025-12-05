@@ -46,6 +46,7 @@
                 cmp_luasnip
                 cmp-nvim-lsp
                 cmp-path
+                lsp_signature-nvim
 
                 # tabs and status line
                 lualine-nvim
