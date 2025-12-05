@@ -80,6 +80,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.lsp.buf.format { async = false, id = args.data.client_id }
       end,
     })
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      callback = function()
+        vim.diagnostic.open_float(nil, { focus = false })
+      end
+    })
   end
 })
 
