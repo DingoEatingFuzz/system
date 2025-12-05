@@ -26,7 +26,6 @@ require("lualine").setup(require("cfg.configs.lualine"))
 require("base46").load_all_highlights()
 
 -- setup language servers
-local lspconfig = require("lspconfig")
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 local servers = {
   "html",
@@ -41,12 +40,13 @@ local servers = {
 }
 
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
+  vim.lsp.config(lsp, {
     capabilities = lsp_capabilities,
   })
+  vim.lsp.enable(lsp)
 end
 
-lspconfig.eslint.setup({
+vim.lsp.config('eslint', {
   filetypes = { "javascript.glimmer", "typescript.glimmer" },
   on_attach = function(_, bufnr)
     -- eslint --fix on save before prettier/formatters
@@ -56,9 +56,10 @@ lspconfig.eslint.setup({
     })
   end,
 })
+vim.lsp.enable('eslint')
 
 -- Use the new rfc-style formatter
-lspconfig.nixd.setup({
+vim.lsp.config('nixd', {
   settings = {
     nixd = {
       formatting = {
@@ -67,6 +68,7 @@ lspconfig.nixd.setup({
     },
   },
 })
+vim.lsp.enable('nixd')
 
 -- Autoformat on save
 vim.api.nvim_create_autocmd("LspAttach", {
