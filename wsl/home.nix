@@ -34,6 +34,7 @@
 
         nix-output-monitor
 
+        starship
         glow
         btop
         iotop
