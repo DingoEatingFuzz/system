@@ -2,7 +2,7 @@
   description = "neovim wrapper";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/master";
   };
   outputs =
     {
@@ -24,42 +24,45 @@
           packageName = "nvim";
           vimPlugins = pkgs.vimPlugins;
 
-          startPlugins = let
-            standard = with vimPlugins; [
-              # basics
-              plenary-nvim
-              telescope-nvim
-              nvim-tree-lua
-              nvim-web-devicons
-              base46
+          startPlugins =
+            let
+              standard = with vimPlugins; [
+                # basics
+                plenary-nvim
+                telescope-nvim
+                nvim-tree-lua
+                nvim-web-devicons
+                base46
 
-              # formatting
-              conform-nvim
+                # formatting
+                conform-nvim
 
-              # language server
-              nvim-lspconfig
+                # language server
+                nvim-lspconfig
 
-              # autocomplete
-              luasnip
-              nvim-cmp
-              cmp_luasnip
-              cmp-nvim-lsp
-              cmp-path
+                # autocomplete
+                luasnip
+                nvim-cmp
+                cmp_luasnip
+                cmp-nvim-lsp
+                cmp-path
+                lsp_signature-nvim
 
-              # tabs and status line
-              lualine-nvim
+                # tabs and status line
+                lualine-nvim
 
-              # syntax highlighting
-              nvim-treesitter.withAllGrammars
+                # syntax highlighting
+                nvim-treesitter.withAllGrammars
 
-              # git
-              gitsigns-nvim
+                # git
+                gitsigns-nvim
 
-              # other stuff
-              zig-vim
-            ];
-            custom = [];
-          in standard ++ custom;
+                # other stuff
+                zig-vim
+              ];
+              custom = [ ];
+            in
+            standard ++ custom;
 
           foldPlugins = builtins.foldl' (
             acc: next: acc ++ [ next ] ++ (foldPlugins (next.dependencies or [ ]))
