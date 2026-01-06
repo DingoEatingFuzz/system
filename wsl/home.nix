@@ -34,6 +34,7 @@
 
         nix-output-monitor
 
+        chezmoi
         starship
         glow
         btop
