@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   pkgs-unstable,
   nvim-wrapper,
@@ -26,6 +27,7 @@
         yq-go
         eza
         fzf
+        less
         jless
 
         which
@@ -63,6 +65,15 @@
       ];
     in
     stable ++ unstable ++ custom;
+
+  home.activation.chezmoi = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    echo "Path? $PATH"
+    _path=$PATH
+    PATH="${config.home.path}/bin:$PATH"
+    echo "Setting up ChezMoi from ${config.home.homeDirectory}/system/dotfiles} ..."
+    ${pkgs.chezmoi}/bin/chezmoi apply -S ${config.home.homeDirectory}/system/dotfiles --verbose
+    PATH=$_path
+  '';
 
   programs.git = {
     enable = true;
