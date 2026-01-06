@@ -38,3 +38,6 @@ alias yom='rm -rf node_modules && yarn cache clean && yarn'
 
 alias cm='chezmoi'
 alias tf='terraform'
+
+# Start starship (fancy prompt)
+eval "$(starship init bash)"
