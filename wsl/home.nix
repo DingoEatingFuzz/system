@@ -71,7 +71,7 @@
     _path=$PATH
     PATH="${config.home.path}/bin:$PATH"
     echo "Setting up ChezMoi from ${config.home.homeDirectory}/system/dotfiles} ..."
-    ${pkgs.chezmoi}/bin/chezmoi apply -S ${config.home.homeDirectory}/system/dotfiles --verbose
+    ${pkgs.chezmoi}/bin/chezmoi apply --force --verbose -S ${config.home.homeDirectory}/system/dotfiles
     PATH=$_path
   '';
 
