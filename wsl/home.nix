@@ -56,6 +56,8 @@
 
         wsl-open
         wslu
+
+        claude-code
       ];
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
