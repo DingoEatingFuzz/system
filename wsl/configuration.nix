@@ -48,7 +48,9 @@
   ];
 
   users.users.nixos.group = "nixos";
-  users.groups.nixos = {};
+  users.groups.nixos = { };
+
+  wsl.interop.register = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
