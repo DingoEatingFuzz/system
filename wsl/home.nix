@@ -84,6 +84,7 @@
     extraConfig = {
       credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
       credential.credentialStore = "wincredman";
+      init.defaultBranch = "main";
     };
   };
 
