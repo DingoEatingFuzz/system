@@ -46,7 +46,7 @@ for _, lsp in ipairs(servers) do
   vim.lsp.enable(lsp)
 end
 
-vim.lsp.config('eslint', {
+vim.lsp.config("eslint", {
   filetypes = { "javascript.glimmer", "typescript.glimmer" },
   on_attach = function(_, bufnr)
     -- eslint --fix on save before prettier/formatters
@@ -56,10 +56,10 @@ vim.lsp.config('eslint', {
     })
   end,
 })
-vim.lsp.enable('eslint')
+vim.lsp.enable("eslint")
 
 -- Use the new rfc-style formatter
-vim.lsp.config('nixd', {
+vim.lsp.config("nixd", {
   settings = {
     nixd = {
       formatting = {
@@ -68,7 +68,7 @@ vim.lsp.config('nixd', {
     },
   },
 })
-vim.lsp.enable('nixd')
+vim.lsp.enable("nixd")
 
 require("nvim-tree").setup(require("cfg.configs.nvimtree"))
 require("lsp_signature").setup(require("cfg.configs.lsp_signature"))
@@ -80,13 +80,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = args.buf,
       callback = function()
-        vim.lsp.buf.format { async = false, id = args.data.client_id }
+        vim.lsp.buf.format({ async = false, id = args.data.client_id })
       end,
     })
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       callback = function()
         vim.diagnostic.open_float(nil, { focus = false })
-      end
+      end,
     })
   end,
 })
