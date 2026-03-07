@@ -88,7 +88,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.diagnostic.open_float(nil, { focus = false })
       end
     })
-  end
+  end,
+})
+
+-- Conform (post-lsp formatting)
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    javascript = { "prettierd" },
+    typescript = { "prettierd" },
+  },
+  format_on_save = {
+    timeout_ms = 200,
+    lsp_format = "fallback",
+  },
 })
 
 -- diagnostics characters and settings
