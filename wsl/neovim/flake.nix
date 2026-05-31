@@ -2,12 +2,10 @@
   description = "neovim wrapper";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:NixOS/nixpkgs/master";
   };
   outputs =
     {
       self,
-      nixpkgs,
       flake-parts,
       ...
     }@inputs:
