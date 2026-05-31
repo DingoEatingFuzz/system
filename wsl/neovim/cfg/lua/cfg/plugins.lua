@@ -4,6 +4,13 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
+-- Register the caddy file type
+vim.filetype.add({
+  filename = {
+    Caddyfile = "caddy",
+  },
+})
+
 -- Treesitter
 require("nvim-treesitter").setup(require("cfg.configs.treesitter"))
 
@@ -93,10 +100,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- Conform (post-lsp formatting)
 require("conform").setup({
+  formatters = {
+    caddy = {
+      command = "caddy",
+      args = { "fmt", "-" },
+      stdin = true,
+    },
+  },
   formatters_by_ft = {
     lua = { "stylua" },
     javascript = { "prettierd" },
     typescript = { "prettierd" },
+    caddy = { "caddy" },
   },
   format_on_save = {
     timeout_ms = 200,
