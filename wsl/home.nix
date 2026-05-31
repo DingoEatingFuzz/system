@@ -58,6 +58,7 @@
         wslu
 
         claude-code
+        _1password-cli
       ];
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
@@ -370,12 +371,6 @@
       };
     };
   };
-
-  # This is bugged. Likely due to existing broken bashrc?
-  # programs.bash = {
-  #   enable = true;
-  #   enableCompletion = true;
-  # };
 
   home.stateVersion = "24.05";
   programs.home-manager.enable = true;

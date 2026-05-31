@@ -44,6 +44,11 @@
               system.stateVersion = "25.05";
               wsl.enable = true;
             }
+            {
+              services.caddy = {
+                enable = true;
+              };
+            }
             ./configuration.nix
             ./fonts.nix
             home-manager.nixosModules.home-manager
