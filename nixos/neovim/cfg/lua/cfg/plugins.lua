@@ -4,6 +4,16 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
+vim.filetype.add({
+  extension = {
+    caddy = 'caddy',
+  },
+  filename = {
+    ['Caddyfile'] = 'caddy',
+  },
+})
+vim.treesitter.language.register("caddy", { "caddy", "Caddyfile" })
+
 -- Treesitter
 require("nvim-treesitter").setup(require("cfg.configs.treesitter"))
 
@@ -72,6 +82,14 @@ vim.lsp.enable('nixd')
 
 require("nvim-tree").setup(require("cfg.configs.nvimtree"))
 require("lsp_signature").setup(require("cfg.configs.lsp_signature"))
+
+-- force treesitter highlighting
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = "*",
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
 
 -- Autoformat on save
 vim.api.nvim_create_autocmd("LspAttach", {
