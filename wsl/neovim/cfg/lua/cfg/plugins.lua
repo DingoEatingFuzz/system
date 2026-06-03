@@ -6,10 +6,15 @@ vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
 
 -- Register the caddy file type
 vim.filetype.add({
+  extension = {
+    caddy = "caddy",
+  },
   filename = {
     Caddyfile = "caddy",
   },
 })
+-- Missing from nvim-treesitter
+vim.treesitter.language.register("caddy", { "Caddy", "caddy", "Caddyfile", "caddyfile" })
 
 -- Treesitter
 require("nvim-treesitter").setup(require("cfg.configs.treesitter"))
@@ -117,6 +122,14 @@ require("conform").setup({
     timeout_ms = 200,
     lsp_format = "fallback",
   },
+})
+
+-- force syntax highlighting
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
 })
 
 -- diagnostics characters and settings

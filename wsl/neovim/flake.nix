@@ -98,6 +98,7 @@
                 typescript-language-server
                 neovim-unwrapped
                 ember-language-server
+                caddy
               ];
               nativeBuildInputs = [ pkgs.makeWrapper ];
               postBuild = ''
