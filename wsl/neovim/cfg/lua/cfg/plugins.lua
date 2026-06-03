@@ -124,8 +124,8 @@ require("conform").setup({
   },
 })
 
--- force syntax highlighting
-vim.api.nvim_create_autocmd("BufReadPost", {
+-- force treesitter highlighting
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
     pcall(vim.treesitter.start)
