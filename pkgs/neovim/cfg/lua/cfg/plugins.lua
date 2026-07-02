@@ -1,0 +1,153 @@
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.mapleader = " "
+vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
+
+-- Register the caddy file type
+vim.filetype.add({
+  extension = {
+    caddy = "caddy",
+  },
+  filename = {
+    Caddyfile = "caddy",
+  },
+})
+-- Missing from nvim-treesitter
+vim.treesitter.language.register("caddy", { "Caddy", "caddy", "Caddyfile", "caddyfile" })
+
+-- Treesitter
+require("nvim-treesitter").setup(require("cfg.configs.treesitter"))
+
+-- File tree viewer
+require("nvim-tree").setup(require("cfg.configs.nvimtree"))
+
+-- Telescope / Fuzzy find
+require("telescope").setup(require("cfg.configs.telescope"))
+
+-- Git
+require("gitsigns").setup(require("cfg.configs.gitsigns"))
+
+-- Autocompletion
+require("cmp").setup(require("cfg.configs.cmp"))
+
+-- Status line
+require("lualine").setup(require("cfg.configs.lualine"))
+
+-- Theming
+require("base46").load_all_highlights()
+
+-- setup language servers
+local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+local servers = {
+  "html",
+  "cssls",
+  "ts_ls",
+  "ember",
+  "lua_ls",
+  "rust_analyzer",
+  "gopls",
+  "zls",
+  "eslint",
+}
+
+for _, lsp in ipairs(servers) do
+  vim.lsp.config(lsp, {
+    capabilities = lsp_capabilities,
+  })
+  vim.lsp.enable(lsp)
+end
+
+vim.lsp.config("eslint", {
+  filetypes = { "javascript.glimmer", "typescript.glimmer" },
+  on_attach = function(_, bufnr)
+    -- eslint --fix on save before prettier/formatters
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      command = "EslintFixAll",
+    })
+  end,
+})
+vim.lsp.enable("eslint")
+
+-- Use the new rfc-style formatter
+vim.lsp.config("nixd", {
+  settings = {
+    nixd = {
+      formatting = {
+        command = { "nixfmt" },
+      },
+    },
+  },
+})
+vim.lsp.enable("nixd")
+
+require("nvim-tree").setup(require("cfg.configs.nvimtree"))
+require("lsp_signature").setup(require("cfg.configs.lsp_signature"))
+
+-- Autoformat on save
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+  callback = function(args)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = args.buf,
+      callback = function()
+        vim.lsp.buf.format({ async = false, id = args.data.client_id })
+      end,
+    })
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+      callback = function()
+        vim.diagnostic.open_float(nil, { focus = false })
+      end,
+    })
+  end,
+})
+
+-- Conform (post-lsp formatting)
+require("conform").setup({
+  formatters = {
+    caddy = {
+      command = "caddy",
+      args = { "fmt", "-" },
+      stdin = true,
+    },
+  },
+  formatters_by_ft = {
+    lua = { "stylua" },
+    javascript = { "prettierd" },
+    typescript = { "prettierd" },
+    caddy = { "caddy" },
+  },
+  format_on_save = {
+    timeout_ms = 200,
+    lsp_format = "fallback",
+  },
+})
+
+-- force treesitter highlighting
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
+
+-- diagnostics characters and settings
+local d = vim.diagnostic
+local x = d.severity
+local lsp = vim.lsp
+
+d.config({
+  virtual_text = { prefix = "" },
+  signs = { text = { [x.ERROR] = "󰅙", [x.WARN] = "", [x.INFO] = "󰋼", [x.HINT] = "󰌵" } },
+  underline = true,
+  float = { border = "single" },
+})
+
+-- Default border style
+local orig_util_open_floating_preview = lsp.util.open_floating_preview
+function lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = "rounded"
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
