@@ -10,7 +10,7 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mlange = {
+    local = {
       url = "path:./../pkgs";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
@@ -28,7 +28,7 @@
               inherit system;
               config.allowUnfree = true;
             };
-            mlange = inputs.mlange;
+            local = inputs.local;
           };
           modules = [
             inputs.nixos-wsl.nixosModules.default
