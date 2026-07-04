@@ -3,15 +3,24 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nvim.url = "path:./neovim";
   };
   outputs =
-    inputs@{ self, nixpkgs, ... }:
-    let
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-    in
-    {
-      packages.x86_64-linux = {
-        nvim = pkgs.callPackage ./neovim/flake.nix { };
-      };
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
+
+      perSystem =
+        { pkgs, system, ... }:
+        {
+          packages = rec {
+            nvim = inputs.nvim.packages.${system}.nvim2;
+            default = nvim;
+          };
+        };
     };
 }
