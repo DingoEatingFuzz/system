@@ -4,6 +4,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvim.url = "path:./neovim";
+    inky.url = "path:./inky";
   };
   outputs =
     { flake-parts, ... }@inputs:
@@ -19,6 +20,7 @@
         {
           packages = rec {
             nvim = inputs.nvim.packages.${system}.nvim2;
+            inky = inputs.inky.packages.${system}.inky;
             default = nvim;
           };
         };

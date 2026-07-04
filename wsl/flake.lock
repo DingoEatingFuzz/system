@@ -73,9 +73,26 @@
         "type": "github"
       }
     },
-    "mlange": {
+    "inky": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "path": "./inky",
+        "type": "path"
+      },
+      "original": {
+        "path": "./inky",
+        "type": "path"
+      },
+      "parent": [
+        "local"
+      ]
+    },
+    "local": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "inky": "inky",
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
@@ -94,7 +111,7 @@
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1781182279,
@@ -113,16 +130,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1780510427,
-        "narHash": "sha256-P7nwtaEq6Kx+00AgFgwffkMEqvnGSLY7qiHafcYRMLs=",
+        "lastModified": 1750134718,
+        "narHash": "sha256-v263g4GbxXv87hMXMCpjkIxd/viIF7p3JpJrwgKdNiI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ee7c17dbafce8a6a1697a8848eae94cb0cd959f6",
+        "rev": "9e83b64f727c88a7711a2c463a7b16eedb69a84c",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "master",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -191,6 +208,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1780510427,
+        "narHash": "sha256-P7nwtaEq6Kx+00AgFgwffkMEqvnGSLY7qiHafcYRMLs=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ee7c17dbafce8a6a1697a8848eae94cb0cd959f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1780243769,
         "narHash": "sha256-x5UQuRsH3MqI0U9afaXSNqzTPSeZlRLvFAav2Ux1pNw=",
         "owner": "NixOS",
@@ -205,7 +238,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1782847189,
         "narHash": "sha256-twXPFqFsrrY5r28Zh7Homgcp2gUMBgQ6WDS98Q/3xFI=",
@@ -224,7 +257,7 @@
     "nvim": {
       "inputs": {
         "flake-parts": "flake-parts_2",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "path": "./neovim",
@@ -235,15 +268,15 @@
         "type": "path"
       },
       "parent": [
-        "mlange"
+        "local"
       ]
     },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "mlange": "mlange",
+        "local": "local",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_4",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }
