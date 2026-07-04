@@ -1,8 +1,7 @@
 {
-  config,
   pkgs,
   pkgs-unstable,
-  nvim-wrapper,
+  local,
   ghostty,
   affinity,
   system,
@@ -65,7 +64,7 @@
         synology-drive-client
       ];
       custom = [
-        nvim-wrapper.packages.${system}.default
+        local.packages.${system}.nvim
         ghostty.packages.${system}.default
         affinity.packages.${system}.photo
         # affinity.packages.${system}.designer
@@ -73,12 +72,6 @@
       ];
     in
     stable ++ unstable ++ custom;
-
-  # programs._1password-gui = {
-  #   enable = true;
-  #   package = pkgs._1password-gui;
-  #   polkitPolicyOwners = [ "michael" ];
-  # };
 
   programs.git = {
     enable = true;
