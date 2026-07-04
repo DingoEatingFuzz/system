@@ -3,7 +3,7 @@
   lib,
   pkgs,
   pkgs-unstable,
-  nvim-wrapper,
+  mlange,
   system,
   ...
 }:
@@ -63,8 +63,8 @@
       unstable = with pkgs-unstable; [
         (pkgs.writeShellScriptBin "nvim-old" "exec -a $0 ${neovim}/bin/nvim $@")
       ];
-      custom = [
-        nvim-wrapper.packages.${system}.default
+      custom = with mlange.packages.${system}; [
+        nvim
       ];
     in
     stable ++ unstable ++ custom;

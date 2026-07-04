@@ -10,45 +10,32 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nvim-wrapper = {
-      url = "path:./neovim";
+    mlange = {
+      url = "path:./../pkgs";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      nixos-wsl,
-      home-manager,
-      nvim-wrapper,
-      ...
-    }:
+    inputs@{ nixpkgs, home-manager, ... }:
     {
       nixosConfigurations = {
         wsl = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             system = system;
-            pkgs-unstable = import nixpkgs-unstable {
+            pkgs-unstable = import inputs.nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
             };
-            nvim-wrapper = nvim-wrapper;
+            mlange = inputs.mlange;
           };
           modules = [
-            nixos-wsl.nixosModules.default
+            inputs.nixos-wsl.nixosModules.default
             {
               system.stateVersion = "25.05";
               wsl.enable = true;
             }
-            # {
-            #   services.caddy = {
-            #     enable = true;
-            #   };
-            # }
             ./configuration.nix
             ./fonts.nix
             home-manager.nixosModules.home-manager
