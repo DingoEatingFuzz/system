@@ -6,7 +6,7 @@
     nvim.url = "path:./neovim";
   };
   outputs =
-    inputs@{ flake-parts, ... }:
+    { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"

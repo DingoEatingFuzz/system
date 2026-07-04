@@ -1,6 +1,6 @@
 return {
   base46 = {
-    theme = "oceanic-light",
+    theme = "oceanic-next",
     hl_add = {},
     hl_override = {},
     integrations = {},

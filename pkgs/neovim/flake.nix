@@ -82,7 +82,7 @@
         {
           packages = {
             nvim2 = pkgs.symlinkJoin {
-              name = "nvim";
+              name = packageName;
               paths = with pkgs; [
                 eslint_d
                 prettierd
