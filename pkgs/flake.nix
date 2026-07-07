@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvim.url = "path:./neovim";
     inky.url = "path:./inky";
+    nomad.url = "path:./nomad";
   };
   outputs =
     { flake-parts, ... }@inputs:
