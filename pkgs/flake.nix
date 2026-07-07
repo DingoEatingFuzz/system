@@ -21,6 +21,7 @@
           packages = rec {
             nvim = inputs.nvim.packages.${system}.nvim2;
             inky = inputs.inky.packages.${system}.inky;
+            nomad = inputs.nomad.packages.${system}.nomad;
             default = nvim;
           };
         };
