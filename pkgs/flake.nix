@@ -6,6 +6,7 @@
     nvim.url = "path:./neovim";
     inky.url = "path:./inky";
     nomad.url = "path:./nomad";
+    mphidflash.url = "path:./mphidflash";
   };
   outputs =
     { flake-parts, ... }@inputs:
@@ -18,13 +19,21 @@
 
       perSystem =
         { pkgs, system, ... }:
+        let
+          systemPkgs = {
+            "x86_64-linux" = {
+              mphidflash = inputs.mphidflash.packages.x86_64-linux.mphidflash;
+            };
+          };
+        in
         {
           packages = rec {
             nvim = inputs.nvim.packages.${system}.nvim2;
             inky = inputs.inky.packages.${system}.inky;
             nomad = inputs.nomad.packages.${system}.nomad;
             default = nvim;
-          };
+          }
+          // systemPkgs.${system};
         };
     };
 }
