@@ -65,8 +65,9 @@
       ];
       custom = [
         local.packages.${system}.nvim
+        local.packages.${system}.mphidflash
         ghostty.packages.${system}.default
-        affinity.packages.${system}.photo
+        # affinity.packages.${system}.photo
         # affinity.packages.${system}.designer
         # affinity.packages.${system}.publisher
       ];
