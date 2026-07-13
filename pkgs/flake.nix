@@ -18,17 +18,21 @@
       ];
 
       perSystem =
-        { pkgs, system, ... }:
+        { system, ... }:
         let
           systemPkgs = {
             "x86_64-linux" = {
               mphidflash = inputs.mphidflash.packages.x86_64-linux.mphidflash;
             };
           };
+          get = inp: inputs.${inp}.packages.${system}.default;
         in
         {
+          # TODO: write a function that takes a set of packages and returns this hash by calling get with each val
+          # default package should be a noop
           packages = rec {
-            nvim = inputs.nvim.packages.${system}.nvim2;
+            nvim = get "nvim";
+            # nvim = inputs.nvim.packages.${system}.nvim2;
             inky = inputs.inky.packages.${system}.inky;
             nomad = inputs.nomad.packages.${system}.nomad;
             default = nvim;

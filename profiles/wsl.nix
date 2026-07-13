@@ -79,6 +79,7 @@
     PATH=$_path
   '';
 
+  # TODO: Move git config into chezmoi to avoid the nixlang parasite
   programs.git = {
     enable = true;
     userName = "Michael Lange";
