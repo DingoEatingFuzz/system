@@ -6,6 +6,7 @@
   config,
   pkgs,
   pkgs-unstable,
+  affinity,
   ...
 }:
 
@@ -139,6 +140,8 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  # Affinity is unfree and must be added as an overlay here
+  nixpkgs.overlays = [ affinity.overlays.default ];
 
   # Steam requires a system-level installation
   programs.steam = {

@@ -20,6 +20,7 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
+      affinity,
       ...
     }:
     {

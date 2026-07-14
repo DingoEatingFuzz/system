@@ -3,7 +3,6 @@
   pkgs-unstable,
   local,
   ghostty,
-  affinity,
   system,
   ...
 }:
@@ -15,6 +14,8 @@
   home.packages =
     let
       stable = with pkgs; [
+        affinity-v3
+
         neofetch
         nurl
 
@@ -67,9 +68,6 @@
         local.packages.${system}.nvim
         local.packages.${system}.mphidflash
         ghostty.packages.${system}.default
-        # affinity.packages.${system}.photo
-        # affinity.packages.${system}.designer
-        # affinity.packages.${system}.publisher
       ];
     in
     stable ++ unstable ++ custom;
