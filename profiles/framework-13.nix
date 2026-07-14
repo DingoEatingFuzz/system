@@ -85,8 +85,8 @@
     };
   };
 
-  programs.alacritty = {
-    alacritty = pkgs-unstable.alactritty;
+  programs.alacritty = import ./../lib/alacritty.nix {
+    alacritty = pkgs-unstable.alacritty;
     pkgs = pkgs;
   };
 
