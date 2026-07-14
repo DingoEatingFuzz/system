@@ -38,15 +38,15 @@
           };
           modules = [
             inputs.nixos-hardware.nixosModules.framework-intel-core-ultra-series1
-            ./configuration.nix
-            ./hardware-configuration.nix
-            ./fonts.nix
+            ./../machines/framework-13/configuration.nix
+            ./../machines/framework-13/hardware-configuration.nix
+            ./../lib/fonts.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = specialArgs;
-              home-manager.users.michael = import ./home.nix;
+              home-manager.users.michael = import ./../profiles/framework-13.nix;
             }
           ];
         };
