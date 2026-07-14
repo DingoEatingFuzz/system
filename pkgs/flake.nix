@@ -18,26 +18,34 @@
       ];
 
       perSystem =
-        { system, ... }:
+        { pkgs, system, ... }:
         let
+          # A hash of packages that should only be installed for certain operating systems
+          # It gets merged with packages below.
           systemPkgs = {
             "x86_64-linux" = {
               mphidflash = inputs.mphidflash.packages.x86_64-linux.mphidflash;
             };
           };
-          get = inp: inputs.${inp}.packages.${system}.default;
+
+          # Each input in this meta flake represents a single package.
+          # The getPackage function gets the default package from an input for the system.
+          getPackage = inp: inputs.${inp}.packages.${system}.default;
+
+          # Turn a list of package names into a hash of package exports
+          inputzip = builtins.foldl' (acc: next: acc // { ${next} = getPackage next; }) { };
+
+          # Make sure packages from a list includes a default package (flake requirement)
+          mkPkgs = packages: (inputzip packages) // { default = pkgs.cowsay; };
         in
         {
-          # TODO: write a function that takes a set of packages and returns this hash by calling get with each val
-          # default package should be a noop
-          packages = rec {
-            nvim = get "nvim";
-            # nvim = inputs.nvim.packages.${system}.nvim2;
-            inky = inputs.inky.packages.${system}.inky;
-            nomad = inputs.nomad.packages.${system}.nomad;
-            default = nvim;
-          }
-          // systemPkgs.${system};
+          packages =
+            (mkPkgs [
+              "nvim"
+              "inky"
+              "nomad"
+            ])
+            // systemPkgs.${system};
         };
     };
 }
