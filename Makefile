@@ -15,5 +15,11 @@ post-bootstrap:
 	@printf "  sudo nixos-rebuild switch\n"
 	@printf "  make rebuild"
 
+bootstrap:
+	@printf "Linking ~/system/nixos to /etc/nixos...\n\n"
+	sudo rm -rf /etc/nixos
+	sudo ln -s ~/system/nixos /etc/nixos
+	make post-bootstrap
+
 rebuild:
 	sudo nixos-rebuild switch
