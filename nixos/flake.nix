@@ -18,22 +18,33 @@
   outputs =
     inputs@{
       nixpkgs,
-      nixpkgs-unstable,
       home-manager,
-      affinity,
       ...
     }:
+    let
+      unfree =
+        input: system:
+        import input {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      inputsPassthru = system: {
+        system = system;
+        pkgs-unstable = unfree inputs.nixpkgs-unstable system;
+        local = inputs.local;
+      };
+      home = path: specialArgs: {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.extraSpecialArgs = specialArgs;
+        home-manager.users.nixos = import path;
+      };
+    in
     {
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          specialArgs = {
-            system = system;
-            pkgs-unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            local = inputs.local;
+          specialArgs = (inputsPassthru system) // {
             ghostty = inputs.ghostty;
             affinity = inputs.affinity;
           };
@@ -43,12 +54,18 @@
             ./../machines/framework-13/hardware-configuration.nix
             ./../lib/fonts.nix
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = specialArgs;
-              home-manager.users.michael = import ./../profiles/framework-13.nix;
-            }
+            (home ./../profiles/framework-13.nix.nix specialArgs)
+          ];
+        };
+        wsl = nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+          specialArgs = inputsPassthru system;
+          modules = [
+            inputs.nixos-wsl.nixosModules.default
+            home-manager.nixosModules.home-manager
+            ./../machines/wsl.nix
+            ./../lib/fonts.nix
+            (home ./../profiles/wsl.nix specialArgs)
           ];
         };
       };
