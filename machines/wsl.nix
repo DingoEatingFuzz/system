@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 
 {
   # Flakes
@@ -32,6 +37,12 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+    package = pkgs-unstable.tailscale;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
