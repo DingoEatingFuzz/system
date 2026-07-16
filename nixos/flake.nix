@@ -58,6 +58,17 @@
             (home "michael" ./../profiles/framework-13.nix specialArgs)
           ];
         };
+        olares = nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+          specialArgs = (inputsPassthru system);
+          modules = [
+            ./../machines/olares/configuration.nix
+            ./../machines/olares/hardware-configuration.nix
+            ./../lib/fonts.nix
+            home-manager.nixosModules.home-manager
+            (home ./../profiles/olares.nix specialArgs)
+          ];
+        };
         wsl = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = inputsPassthru system;
