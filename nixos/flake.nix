@@ -34,11 +34,11 @@
         pkgs-unstable = unfree inputs.nixpkgs-unstable system;
         local = inputs.local;
       };
-      home = path: specialArgs: {
+      home = user: path: specialArgs: {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = specialArgs;
-        home-manager.users.nixos = import path;
+        home-manager.users.${user} = import path;
       };
     in
     {
@@ -55,7 +55,7 @@
             ./../machines/framework-13/hardware-configuration.nix
             ./../lib/fonts.nix
             home-manager.nixosModules.home-manager
-            (home ./../profiles/framework-13.nix.nix specialArgs)
+            (home "michael" ./../profiles/framework-13.nix specialArgs)
           ];
         };
         wsl = nixpkgs.lib.nixosSystem rec {
@@ -66,7 +66,7 @@
             home-manager.nixosModules.home-manager
             ./../machines/wsl.nix
             ./../lib/fonts.nix
-            (home ./../profiles/wsl.nix specialArgs)
+            (home "nixos" ./../profiles/wsl.nix specialArgs)
           ];
         };
       };

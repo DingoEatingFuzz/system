@@ -1,4 +1,6 @@
 {
+  config,
+  lib,
   pkgs,
   pkgs-unstable,
   local,
@@ -29,6 +31,7 @@
         yq-go
         eza
         fzf
+        less
         jless
 
         which
@@ -37,6 +40,7 @@
 
         nix-output-monitor
 
+        chezmoi
         starship
         glow
         btop
@@ -71,6 +75,15 @@
       ];
     in
     stable ++ unstable ++ custom;
+
+  home.activation.chezmoi = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    echo "Path? $PATH"
+    _path=$PATH
+    PATH="${config.home.path}/bin:$PATH"
+    echo "Setting up ChezMoi from ${config.home.homeDirectory}/system/dotfiles} ..."
+    ${pkgs.chezmoi}/bin/chezmoi apply --force --verbose -S ${config.home.homeDirectory}/system/dotfiles
+    PATH=$_path
+  '';
 
   programs.git = {
     enable = true;
