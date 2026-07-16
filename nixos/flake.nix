@@ -66,7 +66,7 @@
             ./../machines/olares/hardware-configuration.nix
             ./../lib/fonts.nix
             home-manager.nixosModules.home-manager
-            (home ./../profiles/olares.nix specialArgs)
+            (home "nixos" ./../profiles/olares.nix specialArgs)
           ];
         };
         wsl = nixpkgs.lib.nixosSystem rec {
