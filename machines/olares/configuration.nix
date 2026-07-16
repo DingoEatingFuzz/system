@@ -91,6 +91,15 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  users.users.nixos = {
+    isNormalUser = true;
+    description = "user";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
