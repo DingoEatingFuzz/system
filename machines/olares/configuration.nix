@@ -5,6 +5,7 @@
 {
   config,
   pkgs,
+  local,
   ...
 }:
 
@@ -63,26 +64,20 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.alice = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  #   packages = with pkgs; [
-  #     tree
-  #   ];
-  # };
-
   # programs.firefox.enable = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    gnumake
-    wget
-    _1password-cli
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      vim
+      git
+      gnumake
+      wget
+      _1password-cli
+    ]
+    ++ [ local.nomad ];
 
   services.tailscale = {
     enable = true;
@@ -93,11 +88,33 @@
 
   users.users.nixos = {
     isNormalUser = true;
-    description = "user";
     extraGroups = [
       "networkmanager"
       "wheel"
     ];
+  };
+
+  systemd.user.services.nomad = {
+    enable = true;
+    description = "Nomad Orchestrator";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      User = "root";
+      Group = "root";
+      Type = "notify";
+      ExecReload = "kill -HUP";
+      ExecStart = "${local.nomad} agent";
+      KillMode = "process";
+      KillSignal = "SIGINT";
+      LimitNOFILE = 65536;
+      LimitNPROC = "infinity";
+      Restart = "on-failure";
+      RestartSec = 2;
+      TasksMax = "infinity";
+      OOMScoreAdjust = -1000; # Never kill Nomad
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
