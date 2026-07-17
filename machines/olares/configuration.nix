@@ -6,9 +6,12 @@
   config,
   pkgs,
   local,
+  system,
   ...
 }:
-
+let
+  nomad = local.packages.${system}.nomad;
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -77,7 +80,7 @@
       wget
       _1password-cli
     ]
-    ++ [ local.nomad ];
+    ++ [ nomad ];
 
   services.tailscale = {
     enable = true;
@@ -105,7 +108,7 @@
       Group = "root";
       Type = "notify";
       ExecReload = "kill -HUP";
-      ExecStart = "${local.nomad} agent";
+      ExecStart = "${nomad} agent";
       KillMode = "process";
       KillSignal = "SIGINT";
       LimitNOFILE = 65536;
