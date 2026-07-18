@@ -2,9 +2,14 @@
   config,
   pkgs,
   pkgs-unstable,
+  local,
+  system,
   ...
 }:
 
+let
+  nomad = local.packages.${system}.nomad;
+in
 {
   # Flakes
   nix.settings.experimental-features = [
@@ -44,15 +49,39 @@
     package = pkgs-unstable.tailscale;
   };
 
+  systemd.services.nomad = {
+    enable = true;
+    description = "Nomad Orchestrator";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "notify";
+      ExecReload = "kill -HUP -dev";
+      ExecStart = "${nomad}/bin/nomad agent -dev";
+      KillMode = "process";
+      KillSignal = "SIGINT";
+      LimitNOFILE = 65536;
+      LimitNPROC = "infinity";
+      Restart = "on-failure";
+      RestartSec = 2;
+      TasksMax = "infinity";
+      OOMScoreAdjust = -1000; # Never kill Nomad
+    };
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    gnumake
-    wget
-    curl
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      vim
+      git
+      gnumake
+      wget
+      curl
+    ]
+    ++ [ nomad ];
 
   users.users.nixos.group = "nixos";
   users.groups.nixos = { };

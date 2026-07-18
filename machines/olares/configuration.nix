@@ -97,18 +97,16 @@ in
     ];
   };
 
-  systemd.user.services.nomad = {
+  systemd.services.nomad = {
     enable = true;
     description = "Nomad Orchestrator";
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      User = "root";
-      Group = "root";
       Type = "notify";
       ExecReload = "kill -HUP";
-      ExecStart = "${nomad} agent";
+      ExecStart = "${nomad}/bin/nomad agent";
       KillMode = "process";
       KillSignal = "SIGINT";
       LimitNOFILE = 65536;
