@@ -106,7 +106,7 @@ in
     serviceConfig = {
       Type = "notify";
       ExecReload = "kill -HUP";
-      ExecStart = "${nomad}/bin/nomad agent";
+      ExecStart = "${nomad}/bin/nomad agent -dev";
       KillMode = "process";
       KillSignal = "SIGINT";
       LimitNOFILE = 65536;

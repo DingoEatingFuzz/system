@@ -91,6 +91,7 @@
     };
   };
 
+  # TODO: Move helix config into chezmoi
   programs.helix = import ./../lib/helix.nix {
     helix = pkgs-unstable.helix;
     pkgs = pkgs;
