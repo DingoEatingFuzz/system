@@ -43,5 +43,28 @@
             default = nomad;
           };
         };
+
+      flake = {
+        service = pkg: {
+          enable = true;
+          description = "Nomad Orchestrator";
+          after = [ "network-online.target" ];
+          wants = [ "network-online.target" ];
+          wantedBy = [ "multi-user.target" ];
+          serviceConfig = {
+            Type = "notify";
+            ExecReload = "kill -HUP";
+            ExecStart = "${pkg}/bin/nomad agent -dev";
+            KillMode = "process";
+            KillSignal = "SIGINT";
+            LimitNOFILE = 65536;
+            LimitNPROC = "infinity";
+            Restart = "on-failure";
+            RestartSec = 2;
+            TasksMax = "infinity";
+            OOMScoreAdjust = -1000; # Never kill Nomad
+          };
+        };
+      };
     };
 }
