@@ -10,6 +10,10 @@
   };
   outputs =
     { flake-parts, ... }@inputs:
+    let
+      mkExtras =
+        packages: (builtins.foldl' (acc: next: acc // { ${next} = inputs.${next}; }) { } packages);
+    in
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "x86_64-linux"
@@ -37,6 +41,7 @@
 
           # Make sure packages from a list includes a default package (flake requirement)
           mkPkgs = packages: (inputzip packages) // { default = pkgs.cowsay; };
+
         in
         {
           packages =
@@ -47,5 +52,11 @@
             ])
             // systemPkgs.${system};
         };
+
+      flake = mkExtras [
+        "nvim"
+        "inky"
+        "nomad"
+      ];
     };
 }
