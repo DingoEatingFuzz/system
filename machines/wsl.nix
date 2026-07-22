@@ -49,27 +49,6 @@ in
     package = pkgs-unstable.tailscale;
   };
 
-  systemd.services.nomad = {
-    enable = true;
-    description = "Nomad Orchestrator";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "notify";
-      ExecReload = "kill -HUP -dev";
-      ExecStart = "${nomad}/bin/nomad agent -dev";
-      KillMode = "process";
-      KillSignal = "SIGINT";
-      LimitNOFILE = 65536;
-      LimitNPROC = "infinity";
-      Restart = "on-failure";
-      RestartSec = 2;
-      TasksMax = "infinity";
-      OOMScoreAdjust = -1000; # Never kill Nomad
-    };
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
@@ -82,6 +61,12 @@ in
       curl
     ]
     ++ [ nomad ];
+
+  systemd.services.nomad = local.nomad.service {
+    package = nomad;
+    pkgs = pkgs;
+    mode = "server";
+  };
 
   users.users.nixos.group = "nixos";
   users.groups.nixos = { };

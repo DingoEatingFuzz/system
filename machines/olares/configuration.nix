@@ -97,25 +97,10 @@ in
     ];
   };
 
-  systemd.services.nomad = {
-    enable = true;
-    description = "Nomad Orchestrator";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "notify";
-      ExecReload = "kill -HUP";
-      ExecStart = "${nomad}/bin/nomad agent -dev";
-      KillMode = "process";
-      KillSignal = "SIGINT";
-      LimitNOFILE = 65536;
-      LimitNPROC = "infinity";
-      Restart = "on-failure";
-      RestartSec = 2;
-      TasksMax = "infinity";
-      OOMScoreAdjust = -1000; # Never kill Nomad
-    };
+  systemd.services.nomad = local.nomad.service {
+    package = nomad;
+    pkgs = pkgs;
+    mode = "server";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
