@@ -8,4 +8,5 @@ server {
 
 client {
   enabled = true
+  network_interface = "tailscale0"
 }
