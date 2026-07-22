@@ -1,5 +1,5 @@
 {
-  description = "Inky";
+  description = "Nomad";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -39,32 +39,48 @@
               version = "2.0.3";
               sha256 = hashes.${system};
               system = system;
+              config = ./../../config/nomad;
             };
             default = nomad;
           };
         };
 
       flake = {
-        service = pkg: {
-          enable = true;
-          description = "Nomad Orchestrator";
-          after = [ "network-online.target" ];
-          wants = [ "network-online.target" ];
-          wantedBy = [ "multi-user.target" ];
-          serviceConfig = {
-            Type = "notify";
-            ExecReload = "kill -HUP";
-            ExecStart = "${pkg}/bin/nomad agent -dev";
-            KillMode = "process";
-            KillSignal = "SIGINT";
-            LimitNOFILE = 65536;
-            LimitNPROC = "infinity";
-            Restart = "on-failure";
-            RestartSec = 2;
-            TasksMax = "infinity";
-            OOMScoreAdjust = -1000; # Never kill Nomad
+        service =
+          {
+            package,
+            pkgs,
+            mode,
+            serviceConfig ? { },
+          }:
+          let
+            file = if mode == "server" then "server.hcl" else "client.hcl";
+          in
+          {
+            enable = true;
+            description = "Nomad Orchestrator";
+            after = [ "network-online.target" ];
+            wants = [
+              "network-online.target"
+              "nix-store.mount"
+            ];
+            wantedBy = [ "multi-user.target" ];
+            path = [ pkgs.iproute2 ];
+            serviceConfig = {
+              Type = "notify";
+              ExecReload = "kill -HUP";
+              ExecStart = "${package}/bin/nomad agent -config ${package}/config/${file}";
+              KillMode = "process";
+              KillSignal = "SIGINT";
+              LimitNOFILE = 65536;
+              LimitNPROC = "infinity";
+              Restart = "on-failure";
+              RestartSec = 2;
+              TasksMax = "infinity";
+              OOMScoreAdjust = -1000; # Never kill Nomad
+            }
+            // serviceConfig;
           };
-        };
       };
     };
 }

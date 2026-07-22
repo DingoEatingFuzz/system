@@ -6,6 +6,7 @@
   name,
   version,
   sha256,
+  config,
   system ? builtins.currentSystem,
   pname ? "${name}-bin",
 
@@ -27,6 +28,8 @@ let
 
   # url for downloading composed of all the other stuff we built up.
   url = "https://releases.hashicorp.com/${name}/${version}/${name}_${version}_${goSystem}.zip";
+
+  files = pkgs.lib.fileset.maybeMissing config;
 in
 pkgs.stdenv.mkDerivation {
   inherit pname version;
@@ -53,7 +56,9 @@ pkgs.stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/bin
+    mkdir -p $out/config
     mv ${name} $out/bin
+    cp -r ${config}/* $out/config
   '';
 }
 
