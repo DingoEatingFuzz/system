@@ -27,7 +27,7 @@ client {
 tls {
   ca_file = "/nomad/nomad-agent-ca.pem"
   cert_file = "/nomad/global-server-nomad.pem"
-  key_file = "/nomad/gloal-server-nomad-key.pem"
+  key_file = "/nomad/global-server-nomad-key.pem"
 
   verify_server_hostname = true
   verify_https_client = true
