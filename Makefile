@@ -29,3 +29,15 @@ syno-nomad-setup:
 	cp -r ./config/nomad/syno.hcl /etc/nomad.d/nomad.hcl
 	cp ./syno/nomad.service /usr/local/lib/systemd/system/
 	synosystemctl start nomad.service
+
+op-server-certs:
+	@printf "Pulling server certs from 1Password...\n\n"
+	op document get "nomad-agent-ca.pem" --out-file /nomad/nomad-agent-ca.pem
+	op document get "global-server-nomad.pem" --out-file /nomad/global-server-nomad.pem
+	op document get "global-server-nomad-key.pem" --out-file /nomad/global-server-nomad-key.pem
+
+op-client-certs:
+	@printf "Pulling client certs from 1Password...\n\n"
+	op document get "nomad-agent-ca.pem" --out-file /nomad/nomad-agent-ca.pem
+	op document get "global-client-nomad.pem" --out-file /nomad/global-client-nomad.pem
+	op document get "global-client-nomad-key.pem" --out-file /nomad/global-client-nomad-key.pem

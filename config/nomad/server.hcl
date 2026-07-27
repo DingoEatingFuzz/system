@@ -22,3 +22,13 @@ client {
   enabled = true
   network_interface = "tailscale0"
 }
+
+# All cert files must first be pulled from 1password
+tls {
+  ca_file = "/nomad/nomad-agent-ca.pem"
+  cert_file = "/nomad/global-server-nomad.pem"
+  key_file = "/nomad/gloal-server-nomad-key.pem"
+
+  verify_server_hostname = true
+  verify_https_client = true
+}
