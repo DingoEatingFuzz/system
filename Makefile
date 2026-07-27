@@ -17,7 +17,7 @@ rebuild:
 syno-nomad-download:
 	@printf "Downloading Nomad v$(NOMAD_VERSION) from releases.hashicorp.com...\n\n"
 	curl "https://releases.hashicorp.com/nomad/$(NOMAD_VERSION)/nomad_$(NOMAD_VERSION)_linux_amd64.zip" > nomad.zip
-	unzip nomad.zip
+	7z e nomad.zip
 	rm LICENSE.txt
 	chmod +x nomad
 	mv nomad /usr/local/bin/
@@ -25,6 +25,7 @@ syno-nomad-download:
 syno-nomad-setup:
 	@printf "Setting up a Nomad systemd service...\n\n"
 	mkdir -p /etc/nomad.d
+	mkdir -p /opt/nomad
 	cp -r ./config/nomad/syno.hcl /etc/nomad.d/nomad.hcl
 	cp ./syno/nomad.service /usr/local/lib/systemd/system/
 	synosystemctl start nomad.service
