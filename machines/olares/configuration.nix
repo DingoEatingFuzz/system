@@ -36,6 +36,7 @@ in
 
   virtualisation = {
     docker.enable = true;
+    docker.package = pkgs.docker_29;
     podman.enable = true;
   };
 
