@@ -30,3 +30,18 @@ tls {
   verify_server_hostname = true
   verify_https_client = true
 }
+
+plugin "docker" {
+  config {
+    allow_privileged = true
+    volumes {
+      enabled = true
+    }
+  }
+}
+
+plugin "raw_exec" {
+  config {
+    enabled = true
+  }
+}
