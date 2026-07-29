@@ -8,6 +8,7 @@
   sha256,
   config ? null,
   system ? builtins.currentSystem,
+  binname ? name,
   pname ? "${name}-bin",
 
   pkgs,
@@ -58,12 +59,12 @@ pkgs.stdenv.mkDerivation {
       ''
         mkdir -p $out/bin
         mkdir -p $out/config
-        mv ${name} $out/bin
+        mv ${name} $out/bin/${binname}
         cp -r ${config}/* $out/config
       ''
     else
       ''
         mkdir -p $out/bin
-        mv ${name} $out/bin
+        mv ${name} $out/bin/${binname}
       '';
 }

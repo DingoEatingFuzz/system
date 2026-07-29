@@ -6,12 +6,7 @@
     podman.url = "path:./../nomad-driver-podman";
   };
   outputs =
-    {
-      self,
-      flake-parts,
-      nixpkgs,
-      ...
-    }@inputs:
+    { flake-parts, ... }@inputs:
     let
       mkHashicorp = import ../../lib/hashicorp.nix;
       hashes = {
@@ -41,10 +36,11 @@
               system = system;
               config = ./../../config/nomad;
             };
+
             # Copy driver packages into bin path via wrapping nomad (like neovim)
             pluginpath = pkgs.runCommandLocal "pluginpath" { } ''
               mkdir -p $out/plugins
-              ln -vsfT ${podman} $out/plugins/${pkgs.lib.getName podman}
+              ln -vsfT ${podman}/bin/podman $out/plugins/podman
             '';
           in
           {
