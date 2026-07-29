@@ -29,6 +29,7 @@
             nomad-driver-podman = mkHashicorp {
               pkgs = pkgs;
               name = "nomad-driver-podman";
+              pname = "podman";
               version = "0.6.5";
               sha256 = hashes.${system};
               system = system;
