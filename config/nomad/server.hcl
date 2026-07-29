@@ -1,5 +1,7 @@
 datacenter = "home"
 data_dir = "/opt/nomad"
+# Plugin dir is dynamic (nix things) and passed via systemd command
+# plugin_dir = "/opt/nomad/plugins"
 
 addresses = {
   http = "{{ GetInterfaceIP \"tailscale0\" }}"
