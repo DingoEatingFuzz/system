@@ -6,7 +6,7 @@
   name,
   version,
   sha256,
-  config,
+  config ? null,
   system ? builtins.currentSystem,
   pname ? "${name}-bin",
 
@@ -54,7 +54,7 @@ pkgs.stdenv.mkDerivation {
   );
 
   installPhase =
-    if config then
+    if config != null then
       ''
         mkdir -p $out/bin
         mkdir -p $out/config
