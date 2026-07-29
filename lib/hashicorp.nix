@@ -27,9 +27,8 @@ let
   goSystem = systemMap.${system} or (throw "unsupported system: ${system}");
 
   # url for downloading composed of all the other stuff we built up.
-  url = "https://releases.hashicorp.com/${name}/${version}/${name}_${version}_${goSystem}.zip";
-
-  files = pkgs.lib.fileset.maybeMissing config;
+  mkUrl = n: v: "https://releases.hashicorp.com/${n}/${v}/${n}_${v}_${goSystem}.zip";
+  url = mkUrl name version;
 in
 pkgs.stdenv.mkDerivation {
   inherit pname version;
@@ -54,19 +53,17 @@ pkgs.stdenv.mkDerivation {
       [ ]
   );
 
-  installPhase = ''
-    mkdir -p $out/bin
-    mkdir -p $out/config
-    mv ${name} $out/bin
-    cp -r ${config}/* $out/config
-  '';
+  installPhase =
+    if config then
+      ''
+        mkdir -p $out/bin
+        mkdir -p $out/config
+        mv ${name} $out/bin
+        cp -r ${config}/* $out/config
+      ''
+    else
+      ''
+        mkdir -p $out/bin
+        mv ${name} $out/bin
+      '';
 }
-
-# { callPackage ? pkgs.callPackage
-# , pkgs ? import <nixpkgs> {} }:
-#
-# callPackage (import ./hashicorp/generic.nix) {
-#   name = "nomad";
-#   version = "1.0.4";
-#   sha256 = "0h78akj9hczgv4wrzwy93wxh8ki51b0g55n39i8ak3kc6sqvif6v";
-# }
