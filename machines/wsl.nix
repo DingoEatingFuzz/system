@@ -62,13 +62,6 @@ in
     ]
     ++ [ nomad ];
 
-  systemd.services.nomad = local.nomad.service {
-    inherit system;
-    package = nomad;
-    pkgs = pkgs;
-    mode = "server";
-  };
-
   users.users.nixos.group = "nixos";
   users.groups.nixos = { };
 
