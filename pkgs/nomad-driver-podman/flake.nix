@@ -12,8 +12,8 @@
     let
       mkHashicorp = import ../../lib/hashicorp.nix;
       hashes = {
-        x86_64-linux = "8455d5691de4cb451e9443282f1c0171570b480737fc6386992638c52a4795e4";
-        aarch64-linux = "61cd1bf830b5db07e87ab5d1dbb73a7b23fbe4c5aed6d81dd0cddc04001b5500";
+        x86_64-linux = "786b04ee9d002e6b4231dbcb8dde3ab65c6fe0a728a01fcad14e87a681e48ce1";
+        aarch64-linux = "53672b179cb71f9a814fdb40ec2fcabe91716d5d44eada84a2a63db38ad66077";
       };
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
