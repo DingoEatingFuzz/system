@@ -3,6 +3,7 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    podman.url = "path:./../nomad-driver-podman";
   };
   outputs =
     {
@@ -20,20 +21,19 @@
         aarch64-linux = "61cd1bf830b5db07e87ab5d1dbb73a7b23fbe4c5aed6d81dd0cddc04001b5500";
       };
     in
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        "x86_64-linux"
-        "i686-linux"
-        "x86_64-darwin"
-        "i686-darwin"
-        "aarch64-linux"
-      ];
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      { getSystem, ... }: {
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
 
-      perSystem =
-        { pkgs, system, ... }:
-        {
-          packages = rec {
-            nomad = mkHashicorp {
+        perSystem =
+          { pkgs, system, ... }:
+          let
+            # Get driver packages for system
+            podman = inputs.podman.packages.${system}.default;
+            nomadpkg = mkHashicorp {
               pkgs = pkgs;
               name = "nomad";
               version = "2.0.3";
@@ -41,46 +41,73 @@
               system = system;
               config = ./../../config/nomad;
             };
-            default = nomad;
-          };
-        };
-
-      flake = {
-        service =
-          {
-            package,
-            pkgs,
-            mode,
-            serviceConfig ? { },
-          }:
-          let
-            file = if mode == "server" then "server.hcl" else "client.hcl";
+            # Copy driver packages into bin path via wrapping nomad (like neovim)
+            pluginpath = pkgs.runCommandLocal "pluginpath" { } ''
+              mkdir -p $out/plugins
+              ln -vsfT ${podman} $out/plugins/${pkgs.lib.getName podman}
+            '';
           in
           {
-            enable = true;
-            description = "Nomad Orchestrator";
-            after = [ "network-online.target" ];
-            wants = [
-              "network-online.target"
-              "nix-store.mount"
-            ];
-            wantedBy = [ "multi-user.target" ];
-            path = [ pkgs.iproute2 ];
-            serviceConfig = {
-              Type = "notify";
-              ExecReload = "kill -HUP";
-              ExecStart = "${package}/bin/nomad agent -config ${package}/config/${file}";
-              KillMode = "process";
-              KillSignal = "SIGINT";
-              LimitNOFILE = 65536;
-              LimitNPROC = "infinity";
-              Restart = "on-failure";
-              RestartSec = 2;
-              TasksMax = "infinity";
-              OOMScoreAdjust = -1000; # Never kill Nomad
-            }
-            // serviceConfig;
+            packages = rec {
+              inherit pluginpath;
+              nomad = mkHashicorp {
+                pkgs = pkgs;
+                name = "nomad";
+                version = "2.0.3";
+                sha256 = hashes.${system};
+                system = system;
+                config = ./../../config/nomad;
+              };
+              nomad2 = pkgs.symlinkJoin {
+                name = "nomad2";
+                paths = [
+                  nomadpkg
+                ];
+                passthru = { inherit pluginpath; };
+              };
+              default = nomad2;
+            };
           };
-      };
-    };
+
+        flake = {
+          service =
+            {
+              package,
+              pkgs,
+              mode,
+              system,
+              serviceConfig ? { },
+            }:
+            let
+              file = if mode == "server" then "server.hcl" else "client.hcl";
+            in
+            {
+              enable = true;
+              description = "Nomad Orchestrator";
+              after = [ "network-online.target" ];
+              wants = [
+                "network-online.target"
+                "nix-store.mount"
+              ];
+              wantedBy = [ "multi-user.target" ];
+              path = [ pkgs.iproute2 ];
+              serviceConfig = {
+                Type = "notify";
+                ExecReload = "kill -HUP";
+                # Provide the -plugin-dir argument to ${package}/plugins
+                ExecStart = "${package}/bin/nomad agent -config ${package}/config/${file} -plugin-dir ${(getSystem system).packages.pluginpath}/plugins";
+                KillMode = "process";
+                KillSignal = "SIGINT";
+                LimitNOFILE = 65536;
+                LimitNPROC = "infinity";
+                Restart = "on-failure";
+                RestartSec = 2;
+                TasksMax = "infinity";
+                OOMScoreAdjust = -1000; # Never kill Nomad
+              }
+              // serviceConfig;
+            };
+        };
+      }
+    );
 }
