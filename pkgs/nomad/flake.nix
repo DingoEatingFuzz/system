@@ -40,7 +40,7 @@
             # Copy driver packages into bin path via wrapping nomad (like neovim)
             pluginpath = pkgs.runCommandLocal "pluginpath" { } ''
               mkdir -p $out/plugins
-              ln -vsfT ${podman}/bin/podman $out/plugins/podman
+              ln -vsfT ${podman}/bin/${pkgs.lib.getName podman} $out/plugins/${pkgs.lib.getName podman}
             '';
           in
           {
