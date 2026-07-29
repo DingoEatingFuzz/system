@@ -1,7 +1,7 @@
 datacenter = "home"
 data_dir = "/opt/nomad"
-# Plugin dir is dynamic (nix things) and passed via systemd command
-# plugin_dir = "/opt/nomad/plugins"
+
+# plugin_dir is dynamic (nix things) and passed via systemd command
 
 addresses = {
   http = "{{ GetInterfaceIP \"tailscale0\" }}"
@@ -33,4 +33,12 @@ tls {
 
   verify_server_hostname = true
   verify_https_client = true
+}
+
+plugin "nomad-driver-podman" {
+  config {
+    volumes {
+      enabled = true
+    }
+  }
 }
