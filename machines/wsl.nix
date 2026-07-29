@@ -63,6 +63,7 @@ in
     ++ [ nomad ];
 
   systemd.services.nomad = local.nomad.service {
+    inherit system;
     package = nomad;
     pkgs = pkgs;
     mode = "server";

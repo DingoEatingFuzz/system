@@ -14,7 +14,7 @@
   home.packages =
     let
       stable = with pkgs; [
-        neofetch
+        fastfetch
         nurl
 
         zip
@@ -55,9 +55,8 @@
         go
 
         wsl-open
-        wslu
+        # wslu
 
-        claude-code
         _1password-cli
       ];
       unstable = with pkgs-unstable; [
