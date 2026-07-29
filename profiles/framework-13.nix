@@ -18,7 +18,7 @@
       stable = with pkgs; [
         affinity-v3
 
-        neofetch
+        fastfetch
         nurl
 
         zip

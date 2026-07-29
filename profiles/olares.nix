@@ -14,7 +14,7 @@
   home.packages =
     let
       stable = with pkgs; [
-        neofetch
+        fastfetch
         nurl
 
         zip
