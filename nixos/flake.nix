@@ -11,7 +11,7 @@
     affinity.url = "github:mrshmllow/affinity-nix";
     local.url = "path:./../pkgs";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
