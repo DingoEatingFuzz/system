@@ -10,6 +10,7 @@
   system ? builtins.currentSystem,
   binname ? name,
   pname ? "${name}-bin",
+  buildInputs ? [ ],
 
   pkgs,
 }:
@@ -52,7 +53,8 @@ pkgs.stdenv.mkDerivation {
       ]
     else
       [ ]
-  );
+  )
+  ++ buildInputs;
 
   installPhase =
     if config != null then
