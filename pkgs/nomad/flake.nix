@@ -4,6 +4,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     podman.url = "path:./../nomad-driver-podman";
+    libvirt.url = "path:./../nomad-driver-virt";
   };
   outputs =
     { flake-parts, ... }@inputs:
@@ -28,6 +29,7 @@
           let
             # Get driver packages for system
             podman = inputs.podman.packages.${system}.default;
+            libvirt = inputs.libvirt.packages.${system}.default;
             nomadpkg = mkHashicorp {
               pkgs = pkgs;
               name = "nomad";
@@ -41,6 +43,7 @@
             pluginpath = pkgs.runCommandLocal "pluginpath" { } ''
               mkdir -p $out/plugins
               ln -vsfT ${podman}/bin/${pkgs.lib.getName podman} $out/plugins/${pkgs.lib.getName podman}
+              ln -vsfT ${libvirt}/bin/${pkgs.lib.getName libvirt} $out/plugins/${pkgs.lib.getName libvirt}
             '';
           in
           {
