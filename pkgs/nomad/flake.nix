@@ -89,7 +89,13 @@
                 "nix-store.mount"
               ];
               wantedBy = [ "multi-user.target" ];
-              path = [ pkgs.iproute2 ];
+              path = [
+                pkgs.iproute2
+                pkgs.iptables
+                pkgs.cloud-init
+                pkgs.dnsmasq
+                pkgs.qemu
+              ];
               serviceConfig = {
                 Type = "notify";
                 ExecReload = "kill -HUP";
