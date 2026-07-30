@@ -30,6 +30,7 @@
               version = "0.0.2-beta.1";
               sha256 = hashes.${system};
               system = system;
+              buildInputs = [ pkgs.libvirt ];
             };
             default = nomad-driver-virt;
           };
