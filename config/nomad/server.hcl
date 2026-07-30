@@ -45,9 +45,6 @@ plugin "nomad-driver-podman" {
 
 plugin "nomad-driver-virt" {
   config {
-    data_dir     = "/var/lib/virt"
-    image_paths  = ["/var/lib/virt", "${ALLOC_DIR}"]
-
     emulator {
       uri      = "qemu:///system"
       user     = ""
