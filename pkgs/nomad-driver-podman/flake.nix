@@ -1,5 +1,5 @@
 {
-  description = "Nomad";
+  description = "Nomad Podman Task Driver";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
