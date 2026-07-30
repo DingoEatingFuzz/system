@@ -38,6 +38,11 @@ in
     docker.enable = true;
     docker.package = pkgs.docker_29;
     podman.enable = true;
+    libvirtd.enable = true;
+    libvirtd.qemu = {
+      swtpm.enable = true;
+    };
+    spiceUSBRedirection.enable = true;
   };
 
   # Configure network proxy if necessary
