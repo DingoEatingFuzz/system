@@ -49,6 +49,45 @@ in
     package = pkgs-unstable.tailscale;
   };
 
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = true;
+
+  environment.sessionVariables = {
+    CUDA_PATH = "${pkgs.cudatoolkit}";
+    EXTRA_LDFLAGS = "-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib";
+    EXTRA_CCFLAGS = "-I/usr/include";
+    LD_LIBRARY_PATH = [
+      "/usr/lib/wsl/lib"
+      "${pkgs.linuxPackages.nvidia_x11}/lib"
+      "${pkgs.ncurses5}/lib"
+    ];
+    MESA_D3D12_DEFAULT_ADAPTER_NAME = "Nvidia";
+  };
+
+  hardware.nvidia-container-toolkit = {
+    enable = true;
+    mount-nvidia-executables = false;
+  };
+
+  systemd.services = {
+    nvidia-cdi-generator = {
+      description = "Generate nvidia cdi";
+      wantedBy = [ "docker.service" ];
+
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.nvidia-docker}/bin/nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml --nvidia-ctk-path=${pkgs.nvidia-container-toolkit}/bin/nvidia-ctk";
+      };
+
+    };
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings.features.cdi = true;
+    daemon.settings.cdi-spec-dirs = [ "/etc/cdi" ];
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
@@ -67,6 +106,7 @@ in
 
   wsl.enable = true;
   wsl.interop.register = true;
+  wsl.useWindowsDriver = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
