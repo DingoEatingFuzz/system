@@ -26,6 +26,11 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Don't let systemd hang reboots
+  systemd.extraConfig = ''
+    RebootWatchdogSec = 10s
+  '';
+
   networking.hostName = "olares"; # Define your hostname.
 
   # Configure network connections interactively with nmcli or nmtui.
