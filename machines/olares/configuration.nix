@@ -122,14 +122,27 @@ in
 
   # GPU settings
   hardware.graphics.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [
+    "nvidia"
+    "modesetting"
+  ];
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     modesetting.enable = true;
     powerManagement.enable = true;
-    # powerManagement.finegrained = true;
+    powerManagement.finegrained = true;
     open = true;
     nvidiaSettings = true;
+
+    prime = {
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:2:0:0";
+
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
