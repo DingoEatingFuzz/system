@@ -52,6 +52,17 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  virtualisation = {
+    docker.enable = true;
+    docker.package = pkgs.docker_29;
+    podman.enable = true;
+    libvirtd.enable = true;
+    libvirtd.qemu = {
+      swtpm.enable = true;
+    };
+    spiceUSBRedirection.enable = true;
+  };
+
   # Firmware updates enabled
   services.fwupd.enable = true;
 
