@@ -27,9 +27,9 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Don't let systemd hang reboots
-  systemd.extraConfig = ''
-    RebootWatchdogSec = 10s
-  '';
+  systemd.settings.Manager = {
+    RebootWatchdogSec = "10s";
+  };
 
   networking.hostName = "olares"; # Define your hostname.
 
