@@ -32,11 +32,13 @@ in
   };
 
   systemd.tmpfiles.settings = {
-    "/opt/immich/cache" = {
-      d.mode = "0777";
-    };
-    "/opt/immich/postgres" = {
-      d.mode = "0777";
+    nomad = {
+      "/opt/immich/cache" = {
+        d.mode = "0777";
+      };
+      "/opt/immich/postgres" = {
+        d.mode = "0777";
+      };
     };
   };
 
