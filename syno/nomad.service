@@ -19,4 +19,4 @@ TasksMax=infinity
 OOMScoreAdjust=-1000; # Never kill Nomad
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
