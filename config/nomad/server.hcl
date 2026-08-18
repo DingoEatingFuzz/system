@@ -23,6 +23,21 @@ server {
 client {
   enabled = true
   network_interface = "tailscale0"
+
+  host_volume "immich" {
+    path = "/mnt/photo"
+    read_only = true
+  }
+
+  host_volume "immich_cache" {
+    path = "/opt/immich/cache"
+    read_only = false
+  }
+
+  host_volume "immich_db" {
+    path = "/opt/immich/postgres"
+    read_only = false
+  }
 }
 
 # All cert files must first be pulled from 1password

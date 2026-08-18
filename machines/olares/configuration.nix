@@ -31,6 +31,15 @@ in
     RebootWatchdogSec = "10s";
   };
 
+  systemd.tmpfiles.settings = {
+    "/opt/immich/cache" = {
+      d.mode = "0777";
+    };
+    "/opt/immich/postgres" = {
+      d.mode = "0777";
+    };
+  };
+
   networking.hostName = "olares"; # Define your hostname.
 
   # Configure network connections interactively with nmcli or nmtui.
