@@ -26,7 +26,7 @@ client {
 
   host_volume "immich" {
     path = "/mnt/photo"
-    read_only = true
+    read_only = false
   }
 
   host_volume "immich_cache" {
