@@ -11,6 +11,7 @@
 }:
 let
   nomad = local.packages.${system}.nomad;
+  cni = import ./../../lib/cni.nix { inherit pkgs; };
 in
 {
   imports = [
@@ -46,6 +47,9 @@ in
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
+
+  # CNI networking
+  system.activationScripts.cniDirs = cni.activation;
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
