@@ -101,6 +101,7 @@ in
   environment.systemPackages =
     with pkgs;
     [
+      cni-plugins
       vim
       git
       gnumake
