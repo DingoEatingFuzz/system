@@ -20,6 +20,8 @@ job "traefik" {
       port "api" {
         static = 8081
       }
+
+      mode = "host"
     }
 
     service {
@@ -41,6 +43,7 @@ job "traefik" {
       config {
         image        = "traefik:v3.6.6"
         network_mode = "host"
+        ports = ["http", "api"]
 
         volumes = [
           "local/traefik.toml:/etc/traefik/traefik.toml",

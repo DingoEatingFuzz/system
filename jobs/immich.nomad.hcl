@@ -4,6 +4,33 @@ job "immich" {
   group "immich" {
     count = 1
 
+    restart {
+      attempts = 0
+      delay = "10s"
+    }
+
+    reschedule {
+      attempts = 0
+    }
+
+    volume "immich" {
+      type = "host"
+      read_only = false
+      source = "immich"
+    }
+
+    volume "immich_cache" {
+      type = "host"
+      read_only = false
+      source = "immich_cache"
+    }
+
+    volume "immich_db" {
+      type = "host"
+      read_only = false
+      source = "immich_db"
+    }
+
     constraint {
       attribute = "${node.unique.name}"
       operator = "="
@@ -11,7 +38,8 @@ job "immich" {
     }
 
     network {
-      port "http" {}
+      mode = "bridge"
+      port "http" { to = "2283" }
       port "ml" { to = "3003" }
       port "redis" { to = "6379" }
       port "db" { to = "5432" }
@@ -24,7 +52,7 @@ job "immich" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.http.rule=Path(`/immich`)",
+        "traefik.http.routers.immich.rule=Path(`/immich`)",
       ]
 
       check {
@@ -36,23 +64,24 @@ job "immich" {
     }
 
     task "server" {
-      driver = "podman"
+      driver = "docker"
 
       resources {
         cpu    = 1000
-        memory = 1024
+        memory = 8192
       }
 
       config {
-        image = "ghcr.io/immich-app/immich-server:v3.1.0"
+        image = "https://ghcr.io/immich-app/immich-server:v3.1.0"
         ports = ["http"]
       }
 
       env {
-        IMMICH_PORT = "${NOMAD_PORT_http}"
-        REDIS_PORT = "${NOMAD_PORT_redis}"
-        DB_PORT = "${NOMAD_PORT_db}"
-        TZ = "America/Los_Angeles"
+        TZ="America/Los_Angeles"
+        REDIS_HOSTNAME="127.0.0.1"
+        REDIS_PORT="${NOMAD_PORT_redis}"
+        DB_HOSTNAME="127.0.0.1"
+        DB_PORT="${NOMAD_PORT_db}"
         DB_USERNAME="postgres"
         DB_DATABASE_NAME="immich"
       }
@@ -63,7 +92,7 @@ job "immich" {
         change_mode = "restart"
         data = <<EOH
         {{ with nomadVar "nomad/jobs/immich" }}
-          POSTGES_PASSWORD={{ .db_password }}
+          DB_PASSWORD={{ .db_password }}
         {{ end }}
         EOH
       }
@@ -71,12 +100,12 @@ job "immich" {
       volume_mount {
         volume = "immich"
         destination = "/data"
-        read_only = true
+        read_only = false
       }
     }
 
     task "machine-learning" {
-      driver = "podman"
+      driver = "docker"
 
       resources {
         cpu    = 1000
@@ -84,14 +113,16 @@ job "immich" {
       }
 
       config {
-        image = "ghcr.io/immich-app/immich-machine-learning:v3.1.0"
+        image = "https://ghcr.io/immich-app/immich-machine-learning:v3.1.0"
         ports = ["ml"]
       }
 
       env {
-        REDIS_PORT = "${NOMAD_PORT_redis}"
-        DB_PORT = "${NOMAD_PORT_db}"
         TZ = "America/Los_Angeles"
+        REDIS_HOSTNAME="127.0.0.1"
+        REDIS_PORT="${NOMAD_PORT_redis}"
+        DB_HOSTNAME="127.0.0.1"
+        DB_PORT="${NOMAD_PORT_db}"
         DB_USERNAME="postgres"
         DB_DATABASE_NAME="immich"
       }
@@ -102,7 +133,7 @@ job "immich" {
         change_mode = "restart"
         data = <<EOH
         {{ with nomadVar "nomad/jobs/immich" }}
-          POSTGES_PASSWORD={{ .db_password }}
+          POSTGRES_PASSWORD={{ .db_password }}
         {{ end }}
         EOH
       }
@@ -115,7 +146,7 @@ job "immich" {
     }
 
     task "redis" {
-      driver = "podman"
+      driver = "docker"
 
       resources {
         cpu    = 250
@@ -128,17 +159,18 @@ job "immich" {
       }
 
       config {
-        image = "docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411"
+        image = "https://docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411"
         ports = ["redis"]
       }
     }
 
     task "database" {
-      driver = "podman"
+      driver = "docker"
 
       resources {
         cpu    = 250
-        memory = 256
+        memory = 1024
+        memory_max = 4096
       }
 
       lifecycle {
@@ -147,7 +179,7 @@ job "immich" {
       }
 
       config {
-        image="ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23"
+        image="https://ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23"
         ports = ["db"]
       }
 
@@ -158,7 +190,6 @@ job "immich" {
       }
 
       env {
-        POSTGRES_PASSWORD=""
         POSTGRES_USER="postgres"
         POSTGRES_DB="immich"
         POSTGRES_INITDB_ARGS="--data-checksums"
@@ -170,7 +201,7 @@ job "immich" {
         change_mode = "restart"
         data = <<EOH
         {{ with nomadVar "nomad/jobs/immich" }}
-          POSTGES_PASSWORD={{ .db_password }}
+          POSTGRES_PASSWORD={{ .db_password }}
         {{ end }}
         EOH
       }
