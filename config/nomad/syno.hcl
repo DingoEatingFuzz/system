@@ -19,6 +19,11 @@ client {
   server_join {
     retry_join = [ "olares:4647" ]
   }
+
+  host_volume "technitium_config" {
+    path = "/opt/technitium/config"
+    read_only = false
+  }
 }
 
 # All cert files must first be pulled from 1password
