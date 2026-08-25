@@ -41,6 +41,11 @@
     ];
   };
 
+  fileSystems."/mnt/photo" = {
+    device = "caacleqnasx:/volume1/photo";
+    fsType = "nfs4";
+  };
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
