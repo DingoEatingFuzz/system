@@ -40,6 +40,12 @@ in
       "/opt/immich/postgres" = {
         d.mode = "0777";
       };
+      "/opt/caddy/data_ts" = {
+        d.mode = "0777";
+      };
+      "/opt/caddy/data_lan" = {
+        d.mode = "0777";
+      };
     };
   };
 
