@@ -41,6 +41,10 @@ client {
     path = "/opt/immich/postgres"
     read_only = false
   }
+
+  host_network "eth" {
+    interface = "eth0"
+  }
 }
 
 # All cert files must first be pulled from 1password
