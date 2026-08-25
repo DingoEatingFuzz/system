@@ -53,7 +53,7 @@ client {
   }
 
   host_network "eth" {
-    interface = "eth0"
+    interface = "enp129s0"
   }
 }
 
