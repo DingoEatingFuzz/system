@@ -25,6 +25,16 @@ client {
     read_only = false
   }
 
+  host_volume "caddy_ts_data" {
+    path = "/opt/caddy/data_ts"
+    read_only = false
+  }
+
+  host_volume "caddy_lan_data" {
+    path = "/opt/caddy/data_lan"
+    read_only = false
+  }
+
   host_network "eth" {
     interface = "eth0"
   }
