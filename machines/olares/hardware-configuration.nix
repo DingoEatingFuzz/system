@@ -42,7 +42,7 @@
   };
 
   fileSystems."/mnt/photo" = {
-    device = "caacleqnasx:/volume1/photo";
+    device = "caacleqnasx:/volume1/photography/shoots";
     fsType = "nfs4";
   };
 
