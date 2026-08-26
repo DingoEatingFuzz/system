@@ -74,7 +74,7 @@ tls {
 
 plugin "docker" {
   config {
-    allowed_caps = ["net_admin"]
+    allow_caps = ["net_admin"]
   }
 }
 
