@@ -36,11 +36,12 @@ in
     nomad = {
       "/opt/immich/cache" = {
         d.mode = "0777";
-        d.user = "root";
+      };
+      "/opt/immich/upload" = {
+        d.mode = "0777";
       };
       "/opt/immich/postgres" = {
         d.mode = "0777";
-        d.user = "root";
       };
       "/opt/caddy/data_ts" = {
         d.mode = "0777";
