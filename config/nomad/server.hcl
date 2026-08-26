@@ -52,6 +52,11 @@ client {
     read_only = false
   }
 
+  host_volume "ts_state_immich" {
+    path = "/opt/tailscale/state/immich"
+    read_only = false
+  }
+
   host_network "eth" {
     interface = "enp129s0"
   }

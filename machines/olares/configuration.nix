@@ -46,6 +46,9 @@ in
       "/opt/caddy/data_lan" = {
         d.mode = "0777";
       };
+      "/opt/tailscale/state/immich" = {
+        d.mode = "0777";
+      };
     };
   };
 
