@@ -73,7 +73,9 @@ tls {
 }
 
 plugin "docker" {
-  allowed_caps = ["net_admin"]
+  config {
+    allowed_caps = ["net_admin"]
+  }
 }
 
 plugin "nomad-driver-podman" {
