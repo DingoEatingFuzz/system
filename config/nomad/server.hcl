@@ -67,6 +67,10 @@ tls {
   verify_https_client = true
 }
 
+plugin "docker" {
+  allowed_caps = ["net_admin"]
+}
+
 plugin "nomad-driver-podman" {
   config {
     volumes {
