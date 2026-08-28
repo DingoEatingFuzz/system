@@ -98,6 +98,7 @@
                 pkgs.cloud-init
                 pkgs.dnsmasq
                 pkgs.qemu
+                pkgs.util-linux
               ];
               serviceConfig = {
                 Type = "notify";

@@ -33,7 +33,6 @@
               version = "0.1.2";
               sha256 = hashes.${system};
               system = system;
-              buildInputs = [ pkgs.util-linux ];
             };
             default = nomad-driver-exec2;
           };
