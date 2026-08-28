@@ -29,7 +29,7 @@ client {
 
   host_volume "immich" {
     path = "/mnt/photo"
-    read_only = false
+    read_only = true
   }
 
   host_volume "immich_upload" {
