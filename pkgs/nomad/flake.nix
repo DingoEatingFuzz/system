@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     podman.url = "path:./../nomad-driver-podman";
     libvirt.url = "path:./../nomad-driver-virt";
+    exec2.url = "path:./../nomad-driver-exec2";
   };
   outputs =
     { flake-parts, ... }@inputs:
@@ -30,6 +31,7 @@
             # Get driver packages for system
             podman = inputs.podman.packages.${system}.default;
             libvirt = inputs.libvirt.packages.${system}.default;
+            exec2 = inputs.exec2.packages.${system}.default;
             nomadpkg = mkHashicorp {
               pkgs = pkgs;
               name = "nomad";
@@ -44,6 +46,7 @@
               mkdir -p $out/plugins
               ln -vsfT ${podman}/bin/${pkgs.lib.getName podman} $out/plugins/${pkgs.lib.getName podman}
               ln -vsfT ${libvirt}/bin/${pkgs.lib.getName libvirt} $out/plugins/${pkgs.lib.getName libvirt}
+              ln -vsfT ${exec2}/bin/${pkgs.lib.getName exec2} $out/plugins/${pkgs.lib.getName exec2}
             '';
           in
           {
