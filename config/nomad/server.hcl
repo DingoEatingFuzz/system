@@ -97,7 +97,7 @@ plugin "nomad-driver-virt" {
 
 plugin "nomad-driver-exec2" {
   config {
-    unveil_paths = ["rwx:/nix/store"]
+    unveil_paths = ["rwx:/nix/store", "rx:/run/current-system/sw/bin"]
     unveil_by_task = true
   }
 }
