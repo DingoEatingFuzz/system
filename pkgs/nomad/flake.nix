@@ -56,7 +56,6 @@
                 name = "nomad2";
                 paths = [
                   nomadpkg
-                  pkgs.git
                 ];
                 passthru = { inherit pluginpath; };
               };

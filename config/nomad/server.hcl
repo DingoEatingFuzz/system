@@ -27,6 +27,8 @@ client {
   cni_path = "/opt/cni/bin"
   cni_config_dir = "/opt/cni/config"
 
+  disable_filesystem_isolation = true
+
   host_volume "immich" {
     path = "/mnt/photo"
     read_only = true
