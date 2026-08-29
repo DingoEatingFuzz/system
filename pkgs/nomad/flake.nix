@@ -99,6 +99,8 @@
                 pkgs.dnsmasq
                 pkgs.qemu
                 pkgs.util-linux
+                pkgs.git
+                pkgs.nix
               ];
               serviceConfig = {
                 Type = "notify";
