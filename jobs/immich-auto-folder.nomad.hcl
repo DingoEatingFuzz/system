@@ -1,5 +1,5 @@
 job "immich-auto-folder" {
-  datacenter = ["home"]
+  datacenters = ["home"]
 
   type = "batch"
 
@@ -7,18 +7,37 @@ job "immich-auto-folder" {
     payload = "forbidden"
   }
 
-  task "sync" {
-    driver = "exec2"
+  constraint {
+    attribute = "${node.unique.name}"
+    operator = "="
+    value = "olares"
+  }
 
-    # Clone the repo
-    artifact {
-      source = "git:https://github.com/DingoEatingFuzz/immich-folder-album-creator"
+  group "sync" {
+
+    # Don't force it, man
+    restart { attempts = 0 }
+    reschedule { attempts = 0 }
+
+    volume "nix" {
+      type = "host"
+      source = "nix"
+      read_only = false
     }
 
-    # Let nix do the rest (exec2 is configured to have access to the nix store for caching)
-    config {
-      command = "nix"
-      args = ["shell", "./local/repo", "--command", "immich-auto-folder"]
+    task "sync" {
+      driver = "exec"
+
+      config {
+        command = "nix"
+        args = ["run", "github:DingoEatingFuzz/immich-folder-album-creator"]
+      }
+
+      volume_mount {
+        volume = "nix"
+        destination = "/nix"
+        read_only = false
+      }
     }
   }
 }
