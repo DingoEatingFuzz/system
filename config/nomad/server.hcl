@@ -31,6 +31,15 @@ client {
     disable_filesystem_isolation = true
   }
 
+  # When running nix jobs in isolated environments
+  # we still need access to read/write from the store
+  # Technically this means a jobs could blow away the store
+  # if it wanted to be cheeky and nefarious, but it's good enough
+  host_volume "nix" {
+    path = "/store"
+    read_only = false
+  }
+
   host_volume "immich" {
     path = "/mnt/photo"
     read_only = true
