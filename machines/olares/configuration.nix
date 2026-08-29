@@ -70,7 +70,7 @@ in
         ln -sf $p /usr/bin
       done
       for p in ${pkgs.nix}/bin/*; do
-        cp $p /usr/bin
+        cp -Lr $p /usr/bin
       done
     '';
   };
