@@ -36,7 +36,7 @@ client {
   # Technically this means a jobs could blow away the store
   # if it wanted to be cheeky and nefarious, but it's good enough
   host_volume "nix" {
-    path = "/store"
+    path = "/nix/store"
     read_only = false
   }
 
