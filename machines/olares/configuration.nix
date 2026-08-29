@@ -60,12 +60,15 @@ in
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
-  # CNI networking
   system.activationScripts = {
+    # CNI networking
     cniDirs = cni.activation;
+    # Nomad expects standard filesystem things sometimes
     fhsDirs = ''
       mkdir -p /usr/bin
       for p in ${pkgs.git}/bin/*; do
+        ln -sf $p /usr/bin
+      for p in ${pkgs.nix}/bin/*; do
         ln -sf $p /usr/bin
       done
     '';
