@@ -61,7 +61,15 @@ in
   networking.networkmanager.enable = true;
 
   # CNI networking
-  system.activationScripts.cniDirs = cni.activation;
+  system.activationScripts = {
+    cniDirs = cni.activation;
+    fhsDirs = ''
+      mkdir -p /usr/bin
+      for p in ${pkgs.git}/bin/*; do
+        ln -sf $p /usr/bin
+      done
+    '';
+  };
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
