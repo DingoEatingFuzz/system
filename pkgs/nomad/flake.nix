@@ -52,18 +52,11 @@
           {
             packages = rec {
               inherit pluginpath;
-              nomad = mkHashicorp {
-                pkgs = pkgs;
-                name = "nomad";
-                version = "2.0.3";
-                sha256 = hashes.${system};
-                system = system;
-                config = ./../../config/nomad;
-              };
               nomad2 = pkgs.symlinkJoin {
                 name = "nomad2";
                 paths = [
                   nomadpkg
+                  pkgs.git
                 ];
                 passthru = { inherit pluginpath; };
               };
