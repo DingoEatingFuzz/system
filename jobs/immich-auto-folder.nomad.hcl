@@ -22,7 +22,6 @@ job "immich-auto-folder" {
     volume "nix" {
       type = "host"
       source = "nix"
-      read_only = false
     }
 
     task "sync" {
@@ -30,13 +29,23 @@ job "immich-auto-folder" {
 
       config {
         command = "nix"
-        args = ["run", "github:DingoEatingFuzz/immich-folder-album-creator"]
+        args = ["run", "github:DingoEatingFuzz/immich-folder-album-creator", "/synology/photos", "http://immich/api", "${API_KEY}", "--", "--unattended"]
       }
 
       volume_mount {
         volume = "nix"
         destination = "/nix"
-        read_only = false
+      }
+
+      template {
+        destination = "${NOMAD_SECRETS_DIR}/env.vars"
+        env = true
+        change_mode = "restart"
+        data = <<EOH
+        {{ with nomadVar "nomad/jobs/immich-auto-folder" }}
+          API_KEY={{ .immich_api_key }}
+        {{ end }}
+        EOH
       }
     }
   }
