@@ -100,6 +100,19 @@ tls {
   verify_https_client = true
 }
 
+plugin "docker" {
+  config {
+    # All the defaults + net_raw
+    allow_caps = [
+      "audit_write", "chown", "dac_override",
+      "fowner", "fsetid", "kill",
+      "mknod", "net_bind_service", "setfcap",
+      "setgid", "setpcap", "setuid",
+      "sys_chroot", "net_raw"
+    ]
+  }
+}
+
 plugin "nomad-driver-podman" {
   config {
     volumes {
