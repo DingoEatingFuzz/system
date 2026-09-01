@@ -244,7 +244,7 @@ job "immich" {
       }
 
       volume_mount {
-        volume = "immich"
+        volume = "ts_state"
         destination = "/state"
         read_only = false
       }
