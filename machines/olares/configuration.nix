@@ -52,6 +52,9 @@ in
       "/opt/tailscale/state/immich" = {
         d.mode = "0777";
       };
+      "/opt/homeassistant/config" = {
+        d.mode = "0777";
+      };
     };
   };
 

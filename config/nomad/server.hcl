@@ -40,6 +40,11 @@ client {
     read_only = false
   }
 
+  host_volume "dbus" {
+    path = "/run/dbus"
+    read_only = true
+  }
+
   host_volume "immich" {
     path = "/mnt/photo"
     read_only = true
@@ -72,6 +77,11 @@ client {
 
   host_volume "ts_state_immich" {
     path = "/opt/tailscale/state/immich"
+    read_only = false
+  }
+
+  host_volume "ha_config" {
+    path = "/opt/homeassistant/config"
     read_only = false
   }
 
