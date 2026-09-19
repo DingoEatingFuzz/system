@@ -102,13 +102,13 @@ tls {
 
 plugin "docker" {
   config {
-    # All the defaults + net_raw
+    # All the defaults + net_raw + net_admin
     allow_caps = [
       "audit_write", "chown", "dac_override",
       "fowner", "fsetid", "kill",
       "mknod", "net_bind_service", "setfcap",
       "setgid", "setpcap", "setuid",
-      "sys_chroot", "net_raw"
+      "sys_chroot", "net_raw", "net_admin"
     ]
   }
 }
