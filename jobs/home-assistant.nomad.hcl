@@ -20,7 +20,10 @@ job "home-assistant" {
     }
 
     network {
-      port "http" { to = "8123" }
+      port "http" {
+        static = 8123
+        host_network = "eth"
+      }
     }
 
     service {
@@ -51,6 +54,7 @@ job "home-assistant" {
 
       config {
         image = "https://ghcr.io/home-assistant/home-assistant:2026.8.3"
+        cap_add = ["net_raw", "net_admin"]
         ports = ["http"]
       }
 
