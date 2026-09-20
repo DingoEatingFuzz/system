@@ -1,0 +1,15 @@
+version: 5
+mqtt:
+    base_topic: zigbee2mqtt
+    server: mqtt://192.168.189.2:1883
+    user: local
+serial:
+    port: tcp://192.168.189.200:6638
+    baudrate: 115200
+    adapter: ember
+frontend:
+    enabled: true
+homeassistant:
+    enabled: true
+advanced:
+    transmit_power: 20
