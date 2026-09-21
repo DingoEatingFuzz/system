@@ -35,6 +35,11 @@ client {
     read_only = false
   }
 
+  host_volume "zigbee2mqtt" {
+    path = "/volume1/opt/zigbee2mqtt"
+    read_only = false
+  }
+
   host_network "eth" {
     interface = "eth0"
   }
