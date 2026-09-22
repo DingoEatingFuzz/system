@@ -1,6 +1,6 @@
 job "immich" {
   datacenters = ["home"]
-  meta { bonk = 1 }
+  meta { bonk = 2 }
 
   group "immich" {
     count = 1
