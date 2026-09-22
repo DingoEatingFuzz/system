@@ -3,6 +3,7 @@ mqtt:
     base_topic: zigbee2mqtt
     server: mqtt://192.168.189.2:1883
     user: local
+    password: {{ env "MQTT_PASSWORD" }}
 serial:
     port: tcp://192.168.189.200:6638
     baudrate: 115200
