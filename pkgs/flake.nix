@@ -7,6 +7,7 @@
     inky.url = "path:./inky";
     nomad.url = "path:./nomad";
     mphidflash.url = "path:./mphidflash";
+    samsungtv.url = "path:./samsungtv";
   };
   outputs =
     { flake-parts, ... }@inputs:
@@ -49,6 +50,7 @@
               "nvim"
               "inky"
               "nomad"
+              "samsungtv"
             ])
             // systemPkgs.${system};
         };
@@ -57,6 +59,7 @@
         "nvim"
         "inky"
         "nomad"
+        "samsungtv"
       ];
     };
 }
