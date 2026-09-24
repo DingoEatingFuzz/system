@@ -65,6 +65,7 @@
       custom = with local.packages.${system}; [
         nvim
         nomad
+        samsungtv
       ];
     in
     stable ++ unstable ++ custom;
