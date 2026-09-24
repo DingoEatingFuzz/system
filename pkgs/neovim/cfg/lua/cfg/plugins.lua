@@ -49,6 +49,7 @@ local servers = {
   "gopls",
   "zls",
   "eslint",
+  "ty",
 }
 
 for _, lsp in ipairs(servers) do
