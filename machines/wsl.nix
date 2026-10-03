@@ -43,6 +43,9 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Cross-compilation via QEMU
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # Tailscale
   services.tailscale = {
     enable = true;
