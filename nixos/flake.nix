@@ -1,12 +1,25 @@
 {
   description = "System";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://nixos-raspberrypi.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+    ];
+    connect-timeout = 5;
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+    disko.url = "github:nix-community/disko";
+    nixos-anywhere = "github:nix-community/nixos-anywhere";
     ghostty.url = "github:ghostty-org/ghostty";
     affinity.url = "github:mrshmllow/affinity-nix";
     local.url = "path:./../pkgs";
@@ -20,6 +33,7 @@
     inputs@{
       nixpkgs,
       home-manager,
+      nixos-raspberrypi,
       ...
     }:
     let
@@ -78,6 +92,16 @@
             ./../machines/wsl.nix
             ./../lib/fonts.nix
             (home "nixos" ./../profiles/wsl.nix specialArgs)
+          ];
+        };
+        pi = nixos-raspberrypi.lib.nixosSystem rec {
+          specialArgs = inputs;
+          modules = [
+            inputs.disko.nixosModules.disko
+            ./../machines/pi/configuration.nix
+            ./../machines/pi/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            (home "pi" ./../profiles/pi.nix specialArgs)
           ];
         };
       };
