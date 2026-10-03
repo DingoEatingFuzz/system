@@ -19,7 +19,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     disko.url = "github:nix-community/disko";
-    nixos-anywhere = "github:nix-community/nixos-anywhere";
+    nixos-anywhere.url = "github:nix-community/nixos-anywhere";
     ghostty.url = "github:ghostty-org/ghostty";
     affinity.url = "github:mrshmllow/affinity-nix";
     local.url = "path:./../pkgs";
