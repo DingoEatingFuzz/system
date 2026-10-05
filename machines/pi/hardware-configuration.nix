@@ -7,8 +7,8 @@
   ...
 }:
 let
-  disko-utils = import ../../lib/disko.nix lib;
-  firmwarePartition = disko-utils.firmarePartition;
+  disko-utils = import ../../lib/disko.nix { inherit lib; };
+  firmwarePartition = disko-utils.firmwarePartition;
   espPartition = disko-utils.espPartition;
 in
 {
@@ -25,7 +25,6 @@ in
     interval = "monthly";
 
     fileSystems = [ "/" ];
-
   };
 
   fileSystems = {
@@ -36,7 +35,7 @@ in
   disko.devices.disk.main = {
 
     type = "disk";
-    device = "/dev/sda";
+    device = "/dev/mmcblk0";
 
     content = {
       type = "gpt";
@@ -115,7 +114,7 @@ in
 
                 mountpoint = "/.swapvol";
                 swap."swapfile" = {
-                  size = "4G";
+                  size = "2G";
                   priority = 3; # (higher number -> higher priority)
                   # to be used after zswap (set zramSwap.priority > this priority),
                   # but before "hibernation" swap
@@ -129,7 +128,7 @@ in
         swap = {
           type = "8200"; # Linux swap
 
-          size = "5G"; # RAM + 1GB
+          size = "3G"; # RAM + 1GB
           content = {
             type = "swap";
             resumeDevice = true; # "hibernation" swap
