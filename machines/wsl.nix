@@ -17,6 +17,11 @@ in
     "flakes"
   ];
 
+  nix.settings.trusted-users = [
+    "root"
+    "nixos"
+  ];
+
   networking.hostName = "wsl"; # Define your hostname.
 
   # Enable networking
@@ -51,6 +56,8 @@ in
     enable = true;
     package = pkgs-unstable.tailscale;
   };
+
+  services.openssh.enable = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = true;
