@@ -54,6 +54,24 @@
         home-manager.extraSpecialArgs = specialArgs;
         home-manager.users.${user} = import path;
       };
+
+      piSystemCustom =
+        customModules: hostName:
+        nixos-raspberrypi.lib.nixosSystem rec {
+          system = "aarch64-linux";
+          specialArgs = inputsPassthru system;
+          modules = [
+            inputs.disko.nixosModules.disko
+            ./../machines/pi/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            { networking.hostName = hostName; }
+          ]
+          ++ customModules;
+        };
+
+      piSystem = piSystemCustom [
+        ./../machines/pi/configuration.nix
+      ];
     in
     {
       nixosConfigurations = {
@@ -94,16 +112,10 @@
             (home "nixos" ./../profiles/wsl.nix specialArgs)
           ];
         };
-        pi = nixos-raspberrypi.lib.nixosSystem rec {
-          specialArgs = inputs;
-          modules = [
-            inputs.disko.nixosModules.disko
-            ./../machines/pi/configuration.nix
-            ./../machines/pi/hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            (home "pi" ./../profiles/pi.nix specialArgs)
-          ];
-        };
+        pi1 = piSystem "pi-1";
+        pi2 = piSystem "pi-2";
+        pi3 = piSystem "pi-3";
+        pi4 = piSystem "pi-4";
       };
     };
 }
