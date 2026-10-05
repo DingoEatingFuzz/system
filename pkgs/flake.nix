@@ -31,6 +31,7 @@
             "x86_64-linux" = {
               mphidflash = inputs.mphidflash.packages.x86_64-linux.mphidflash;
             };
+            "aarch64-linux" = { };
           };
 
           # Each input in this meta flake represents a single package.
