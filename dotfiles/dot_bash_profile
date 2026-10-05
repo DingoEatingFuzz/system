@@ -46,6 +46,7 @@ alias tf='terraform'
 if wslinfo --version; then
   alias ssh='ssh.exe'
   alias podman='podman.exe'
+  alias sudo='sudo '
 fi
 
 # Start starship (fancy prompt)
