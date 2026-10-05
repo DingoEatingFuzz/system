@@ -15,6 +15,8 @@ in
     "flakes"
   ];
 
+  boot.tmp.useTmpfs = true;
+
   # Don't let systemd hang reboots
   systemd.settings.Manager = {
     RebootWatchdogSec = "10s";
@@ -26,7 +28,6 @@ in
     # TODO: Nomad service
   };
 
-  networking.hostName = "pi"; # Define your hostname.
   time.timeZone = "America/Los_Angeles";
 
   networking.useNetworkd = true;
@@ -50,14 +51,30 @@ in
     docker.package = pkgs.docker_29;
   };
 
-  environment.systemPackages = with pkgs; [
-    tree
-    cni-plugins
-    vim
-    git
-    gnumake
-    _1password-cli
-  ];
+  system.activationScripts = {
+    # CNI networking
+    cniDirs = cni.activation;
+    # Nomad expects standard filesystem things sometimes
+    fhsDirs = ''
+      mkdir -p /usr/bin
+      for p in ${pkgs.git}/bin/*; do
+        ln -sf $p /usr/bin
+      done
+    '';
+  };
+
+  environment.systemPackages =
+    with pkgs;
+    [
+      tree
+      cni-plugins
+      vim
+      git
+      gnumake
+      _1password-cli
+      fastfetch
+    ]
+    ++ [ nomad ];
 
   services.tailscale = {
     enable = true;
