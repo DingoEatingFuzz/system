@@ -157,7 +157,7 @@ in
     inherit system;
     package = nomad;
     pkgs = pkgs;
-    mode = "server";
+    config = "server";
   };
 
   # GPU settings

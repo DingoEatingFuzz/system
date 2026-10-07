@@ -25,7 +25,23 @@ in
   systemd.services = {
     systemd-networkd.stopIfChanged = false;
     systemd-resolved.stopIfChanged = false;
-    # TODO: Nomad service
+    nomad = local.nomad.service {
+      inherit system;
+      package = nomad;
+      pkgs = pkgs;
+      config = "pi";
+    };
+  };
+
+  systemd.tmpfiles.settings = {
+    nomad = {
+      "/opt/caddy/data" = {
+        d.mode = "0777";
+      };
+      "/nomad/nomad" = {
+        d.mode = "0777";
+      };
+    };
   };
 
   time.timeZone = "America/Los_Angeles";

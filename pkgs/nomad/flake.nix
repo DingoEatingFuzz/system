@@ -68,12 +68,12 @@
             {
               package,
               pkgs,
-              mode,
+              config,
               system,
               serviceConfig ? { },
             }:
             let
-              file = if mode == "server" then "server.hcl" else "client.hcl";
+              file = "${config}.hcl";
             in
             {
               enable = true;
