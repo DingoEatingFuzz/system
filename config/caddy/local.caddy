@@ -1,10 +1,16 @@
 {
-  auto_https off
+	tailscale {
+		auth_key {$TS_AUTHKEY}
+		ephemeral
+	}
 }
 
-localhost,
-pi-2,
-192.168.189.5,
-home.lan {
-  respond "From Pi 2"
+:80 {
+	bind tailscale/test-1
+	respond "Test 1"
+}
+
+:80 {
+	bind tailscale/test-2
+	respond "Test 2"
 }

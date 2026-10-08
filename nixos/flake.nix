@@ -20,6 +20,7 @@
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     disko.url = "github:nix-community/disko";
     nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+    opnix.url = "github:brizzbuzz/opnix";
     ghostty.url = "github:ghostty-org/ghostty";
     affinity.url = "github:mrshmllow/affinity-nix";
     local.url = "path:./../pkgs";
@@ -61,6 +62,7 @@
           system = "aarch64-linux";
           specialArgs = inputsPassthru system;
           modules = [
+            inputs.opnix.nixosModules.default
             inputs.disko.nixosModules.disko
             ./../machines/pi/hardware-configuration.nix
             home-manager.nixosModules.home-manager
@@ -112,8 +114,14 @@
             (home "nixos" ./../profiles/wsl.nix specialArgs)
           ];
         };
-        pi1 = piSystem "pi-1";
-        pi2 = piSystem "pi-2";
+        pi1 = piSystemCustom [
+          ./../machines/pi/configuration.nix
+          ./../machines/pi/dns.nix
+        ] "pi-1";
+        pi2 = piSystemCustom [
+          ./../machines/pi/configuration.nix
+          ./../machines/pi/caddy.nix
+        ] "pi-2";
         pi3 = piSystem "pi-3";
         pi4 = piSystem "pi-4";
       };

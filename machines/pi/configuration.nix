@@ -129,5 +129,24 @@ in
     config.boot.kernelPackages.kernel.version
   ];
 
+  services.onepassword-secrets = {
+    enable = true;
+    tokenFile = "/etc/opnix-token";
+
+    secrets = {
+      tsAuthKey = {
+        reference = "op://Personal/Tailscale Auth Key/nomad auth key";
+        services = [ "caddy" ];
+      };
+    };
+
+    systemdIntegration = {
+      enable = true;
+      services = [ "caddy" ];
+      restartOnChange = true;
+      changeDetection.enable = true;
+    };
+  };
+
   system.stateVersion = "26.05";
 }
