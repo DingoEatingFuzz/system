@@ -1,0 +1,10 @@
+{
+  auto_https off
+}
+
+localhost,
+pi-2,
+192.168.189.5,
+home.lan {
+  respond "From Pi 2"
+}
