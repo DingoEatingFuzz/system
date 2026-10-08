@@ -2,11 +2,11 @@
   ...
 }:
 {
-  networking.hostFiles = [ ./../../config/dnsmaq/hosts.txt ];
+  networking.hostFiles = [ ./../../config/dnsmasq/hosts.txt ];
   services.dnsmasq = {
     enable = true;
     alwaysKeepRunning = true;
-    servers = [
+    settings.servers = [
       "1.1.1.1"
       "8.8.8.8"
     ];
