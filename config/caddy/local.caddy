@@ -6,11 +6,20 @@
 }
 
 :80 {
-	bind tailscale/test-1
-	respond "Test 1"
+	bind tailscale/home-assistant
+	reverse_proxy http://192.168.189.201:8123
 }
 
-:80 {
-	bind tailscale/test-2
-	respond "Test 2"
+https://home-assistant.merino-fish.ts.net {
+	bind tailscale/home-assistant
+	reverse_proxy http://olares:8123
+}
+
+localhost,
+http://home.local {
+	respond "Local network"
+}
+
+http://foo.home.local {
+	respond "Subdomains work"
 }

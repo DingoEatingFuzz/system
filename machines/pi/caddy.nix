@@ -11,9 +11,7 @@
     };
     enable = true;
     configFile = ./../../config/caddy/local.caddy;
-    environmentFile = ''
-      TS_AUTHKEY=${config.services.onepassword-secrets.secretPaths.tsAuthKey}
-    '';
+    environmentFile = config.services.onepassword-secrets.secretPaths.caddyEnv;
   };
 
   networking.firewall.allowedTCPPorts = [
