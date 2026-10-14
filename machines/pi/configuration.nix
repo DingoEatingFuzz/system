@@ -134,8 +134,8 @@ in
     tokenFile = "/etc/opnix-token";
 
     secrets = {
-      tsAuthKey = {
-        reference = "op://Personal/Tailscale Auth Key/nomad auth key";
+      caddyEnv = {
+        reference = "op://lab/tailscale/caddy-env";
         services = [ "caddy" ];
       };
     };
