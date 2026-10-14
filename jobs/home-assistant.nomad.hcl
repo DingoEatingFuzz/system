@@ -24,6 +24,7 @@ job "home-assistant" {
         static = 8123
         host_network = "eth"
       }
+      mode = "host"
     }
 
     service {
@@ -56,6 +57,7 @@ job "home-assistant" {
         image = "https://ghcr.io/home-assistant/home-assistant:2026.8.3"
         cap_add = ["net_raw", "net_admin"]
         ports = ["http"]
+        network_mode = "host"
       }
 
       env {
